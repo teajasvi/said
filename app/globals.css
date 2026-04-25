@@ -137,7 +137,7 @@ ul, ol { list-style: none; }
 
 /* ===== Card Grids ===== */
 .card-grid-home {
-  display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
 }
 .card-grid-desktop {
   display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px;
