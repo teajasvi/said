@@ -59,7 +59,7 @@ export default async function HomePage() {
             Words that stayed<br />with us.
           </h1>
           <p className="section__subtitle">
-            An anonymous archive for the worst things ever said — the ones we spoke and the ones we carry.
+            An anonymous archive for the worst things ever said, the ones we spoke and the ones we carry.
           </p>
           <div style={{ marginTop: '40px', display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/share" className="btn btn-primary">Share Your Words</Link>
