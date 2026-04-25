@@ -2,7 +2,7 @@ import Link from 'next/link';
 import SubmissionCard from '@/components/cards/SubmissionCard';
 import { fetchApprovedSubmissions } from '@/lib/data';
 
-export const revalidate = 60;
+export const revalidate = 300;
 
 export default async function HomePage() {
   const { submissions } = await fetchApprovedSubmissions({ limit: 6 });

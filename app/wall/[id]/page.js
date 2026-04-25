@@ -38,7 +38,7 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export const revalidate = 300;
+export const revalidate = 600;
 
 export default async function SubmissionDetailPage({ params }) {
   const { id } = await params;

@@ -16,7 +16,7 @@ export const metadata = {
   },
 };
 
-export const revalidate = 30;
+export const revalidate = 120;
 
 const DESKTOP_LIMIT = 21;
 const MOBILE_LIMIT = 10;

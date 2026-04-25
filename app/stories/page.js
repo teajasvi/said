@@ -13,7 +13,7 @@ export const metadata = {
   },
 };
 
-export const revalidate = 300;
+export const revalidate = 600;
 
 export default async function StoriesPage() {
   const { stories } = await fetchPublishedStories({ limit: 20 });
