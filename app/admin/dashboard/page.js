@@ -31,7 +31,7 @@ export default function AdminDashboard() {
     } catch { window.location.href = '/admin'; }
     setLoading(false);
     setSelected(new Set());
-  }, [statusFilter, page, router]);
+  }, [statusFilter, page]);
 
   useEffect(() => { fetchSubmissions(); }, [fetchSubmissions]);
 
