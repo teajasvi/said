@@ -13,17 +13,16 @@ export const metadata = {
 
 export default function SharePage() {
   return (
-    <section className="section" style={{ paddingTop: '40px' }}>
-      <div className="container" style={{ maxWidth: '560px' }}>
-        <div className="section__header section__header--center">
-          <p className="heading-sm">Contribute</p>
-          <h1 className="heading-lg" style={{ marginTop: '8px' }}>Share Your Words</h1>
-          <p className="body-lg" style={{ marginTop: '8px' }}>
-            Write what was said. Choose who said it. That&apos;s all.
+    <section className="section" style={{ paddingTop: '60px' }}>
+      <div className="container" style={{ maxWidth: '520px' }}>
+        <div className="section__header--center" style={{ marginBottom: '48px' }}>
+          <h1 className="heading-lg animate-fade-in-up">What was said?</h1>
+          <p className="section__subtitle animate-fade-in-up stagger-1" style={{ maxWidth: '360px' }}>
+            Write it down. Let it go. No names, no accounts, just words.
           </p>
         </div>
 
-        <div style={{ background: 'var(--bg-surface)', padding: '32px', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border)', boxShadow: 'var(--shadow-sm)' }}>
+        <div className="animate-fade-in-up stagger-2">
           <SubmitForm />
         </div>
       </div>

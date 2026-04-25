@@ -18,7 +18,7 @@ export const metadata = {
 
 export const revalidate = 120;
 
-const DESKTOP_LIMIT = 21;
+const DESKTOP_LIMIT = 18;
 const MOBILE_LIMIT = 10;
 
 export default async function WallPage({ searchParams }) {
