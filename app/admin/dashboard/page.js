@@ -27,12 +27,12 @@ export default function AdminDashboard() {
     setLoading(true);
     try {
       const res = await fetch(`/api/admin/submissions?status=${statusFilter}&page=${page}`);
-      if (res.status === 401) { router.push(ADMIN_PATH); return; }
+      if (res.status === 401) { window.location.href = ADMIN_PATH; return; }
       const data = await res.json();
       setSubmissions(data.submissions || []);
       setTotalPages(data.totalPages || 1);
       setTotal(data.total || 0);
-    } catch { router.push(ADMIN_PATH); }
+    } catch { window.location.href = ADMIN_PATH; }
     setLoading(false);
     setSelected(new Set());
   }, [statusFilter, page, router]);
@@ -113,7 +113,7 @@ export default function AdminDashboard() {
 
   const handleLogout = async () => {
     await fetch('/api/admin/logout', { method: 'POST' });
-    router.push(ADMIN_PATH);
+    window.location.href = ADMIN_PATH;
   };
 
   // === Helpers ===

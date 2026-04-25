@@ -28,7 +28,7 @@ export default function AdminLoginPage() {
         return;
       }
 
-      router.push(`${ADMIN_PATH}/dashboard`);
+      window.location.href = `${ADMIN_PATH}/dashboard`;
     } catch {
       setError('Network error.');
       setLoading(false);
