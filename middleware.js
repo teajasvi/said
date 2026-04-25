@@ -4,10 +4,7 @@ import { jwtVerify } from 'jose';
 const JWT_SECRET = () => new TextEncoder().encode(process.env.JWT_SECRET);
 const COOKIE_NAME = 'tws_admin_token';
 
-const WHITELISTED_IPS = [
-  '2001:4860:7:405::de',
-  '103.161.233.102',
-];
+const WHITELISTED_IPS = (process.env.ADMIN_WHITELISTED_IPS || '').split(',').map(ip => ip.trim()).filter(Boolean);
 
 function getClientIp(request) {
   // Cloudflare passes the real IP here
