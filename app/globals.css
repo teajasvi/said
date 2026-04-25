@@ -111,16 +111,17 @@ ul, ol { list-style: none; }
 .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
 
 .submission-card {
-  aspect-ratio: 1/1; padding: 24px; display: flex; flex-direction: column;
+  aspect-ratio: 1/1; padding: 20px; display: flex; flex-direction: column;
   justify-content: space-between; color: var(--card-text); width: 100%;
 }
 .submission-card.color-a { background: var(--card-a); }
 .submission-card.color-b { background: var(--card-b); }
 
 .submission-card__text {
-  font-family: var(--font-serif); font-size: 13px; line-height: 1.55;
+  font-family: var(--font-serif); font-size: 14px; line-height: 1.6;
   font-weight: 400; flex: 1; display: flex; align-items: flex-start;
   word-break: break-word; overflow-wrap: break-word; hyphens: auto;
+  overflow: hidden;
 }
 .submission-card__meta {
   display: flex; justify-content: space-between; align-items: flex-end;
