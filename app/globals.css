@@ -160,6 +160,7 @@ ul, ol { list-style: none; }
   .desktop-only { display: none; }
   .mobile-only { display: block; }
   .submission-card { aspect-ratio: auto; min-height: 280px; }
+  .submission-card__text { font-size: 13px; line-height: 1.55; }
 }
 
 /* ===== Header ===== */
