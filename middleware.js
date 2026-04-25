@@ -10,9 +10,11 @@ const WHITELISTED_IPS = [
 ];
 
 function getClientIp(request) {
+  // Cloudflare passes the real IP here
+  const cfIp = request.headers.get('cf-connecting-ip') || '';
   const forwardedFor = request.headers.get('x-forwarded-for') || '';
   const realIp = request.headers.get('x-real-ip') || '';
-  return [forwardedFor.split(',')[0].trim(), realIp].filter(Boolean);
+  return [cfIp.trim(), forwardedFor.split(',')[0].trim(), realIp].filter(Boolean);
 }
 
 async function isAuthenticated(request) {
