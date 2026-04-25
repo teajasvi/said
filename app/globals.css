@@ -152,7 +152,7 @@ ul, ol { list-style: none; }
 /* ===== Header ===== */
 .header {
   position: fixed; top: 0; left: 0; right: 0; height: var(--header-height);
-  background: rgba(247,245,242,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  background: var(--bg-primary);
   border-bottom: 1px solid var(--border); z-index: 1000;
   display: flex; align-items: center;
 }
