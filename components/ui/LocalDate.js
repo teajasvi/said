@@ -25,7 +25,7 @@ export default function LocalDate({ date, showTime = true }) {
   return (
     <>
       {formatted.split('\n').map((line, i) => (
-        <span key={i}>{i > 0 && <br />}{line}</span>
+        <span key={i}>{line}</span>
       ))}
     </>
   );
