@@ -9,24 +9,8 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Hero — Clean, dramatic, lots of whitespace */}
-      <section className="section--hero">
-        <div className="container">
-          <h1 className="heading-xl animate-fade-in-up">
-            Words that stayed<br />with us.
-          </h1>
-          <p className="section__subtitle animate-fade-in-up stagger-2">
-            An anonymous archive for the worst things ever said — the ones we spoke and the ones we carry.
-          </p>
-          <div className="animate-fade-in-up stagger-3" style={{ marginTop: '40px', display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/share" className="btn btn-primary">Share Your Words</Link>
-            <Link href="/wall" className="btn btn-secondary">Explore The Wall</Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Recent Submissions — 2 columns on desktop, 6 cards on mobile */}
-      <section className="section">
+      {/* Recent Submissions — cards first */}
+      <section className="section" style={{ paddingTop: '40px' }}>
         <div className="container">
           <div className="section__header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '16px' }}>
             <div>
@@ -40,7 +24,7 @@ export default async function HomePage() {
 
           {submissions.length > 0 ? (
             <>
-              {/* Desktop: 2 columns × 3 rows */}
+              {/* Desktop: 3 columns × 2 rows */}
               <div className="desktop-only">
                 <div className="card-grid-home">
                   {submissions.map((sub, i) => (
@@ -68,12 +52,18 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Minimal CTA */}
-      <section className="section" style={{ paddingBottom: '100px' }}>
-        <div className="container text-center">
-          <p className="heading-lg" style={{ marginBottom: '20px' }}>Everyone carries words.</p>
-          <div style={{ marginTop: '24px' }}>
+      {/* Hero text + buttons — below the cards */}
+      <section className="section--hero">
+        <div className="container">
+          <h1 className="heading-xl">
+            Words that stayed<br />with us.
+          </h1>
+          <p className="section__subtitle">
+            An anonymous archive for the worst things ever said — the ones we spoke and the ones we carry.
+          </p>
+          <div style={{ marginTop: '40px', display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link href="/share" className="btn btn-primary">Share Your Words</Link>
+            <Link href="/wall" className="btn btn-secondary">Explore The Wall</Link>
           </div>
         </div>
       </section>
