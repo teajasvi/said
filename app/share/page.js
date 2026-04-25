@@ -1,9 +1,14 @@
 import SubmitForm from '@/components/forms/SubmitForm';
 
 export const metadata = {
-  title: 'Share',
-  description: 'Anonymously share the worst thing ever said — whether you said it or it was said to you. No names, no judgement.',
+  title: 'Share Anonymously — Confess What Was Said',
+  description: 'Anonymously share the worst thing ever said — whether you said something unforgivable during a fight or cruel words were spoken to you. No names, no accounts, complete anonymity. A safe space for catharsis.',
+  keywords: ['anonymous confession', 'share anonymously', 'confess online', 'anonymous venting', 'safe space to confess', 'relationship confession'],
   alternates: { canonical: 'https://theworstsaid.com/share' },
+  openGraph: {
+    title: 'Share Anonymously — The Worst Said',
+    description: 'Anonymously confess the worst thing ever said. No names, no accounts. A curated sanctuary for catharsis and release.',
+  },
 };
 
 export default function SharePage() {

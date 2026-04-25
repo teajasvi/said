@@ -1,8 +1,9 @@
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'How It Works',
-  description: 'Learn how The Worst Said works — submit anonymously, get reviewed, and appear on the wall. Simple, safe, and anonymous.',
+  title: 'How It Works — Submit Your Anonymous Confession',
+  description: 'Learn how to share your anonymous confession on The Worst Said. Five simple steps to submit the worst thing ever said — complete anonymity, manual curation, and a safe space for catharsis.',
+  keywords: ['how to confess anonymously', 'anonymous submission', 'confessional platform', 'how the worst said works'],
   alternates: { canonical: 'https://theworstsaid.com/how-it-works' },
 };
 

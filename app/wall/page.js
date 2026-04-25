@@ -5,9 +5,15 @@ import Pagination from '@/components/ui/Pagination';
 import { fetchApprovedSubmissions } from '@/lib/data';
 
 export const metadata = {
-  title: 'The Wall',
-  description: 'Browse anonymous submissions of the worst things ever said — words spoken and words received. Filter by category and read real confessions.',
+  title: 'The Wall — Anonymous Confessions Archive',
+  description: 'Browse a curated archive of anonymous confessions — the worst things said in relationships, words of regret, breakup trauma, and the truths that stayed. Filter by guilt or pain.',
+  keywords: ['anonymous confessions archive', 'worst things said in relationships', 'breakup confessions', 'hurtful words', 'relationship regrets', 'verbal abuse stories'],
   alternates: { canonical: 'https://theworstsaid.com/wall' },
+  openGraph: {
+    title: 'The Wall — Anonymous Confessions Archive',
+    description: 'A curated archive of the worst things ever said. Browse anonymous confessions of regret, guilt, and the words that altered lives.',
+    type: 'website',
+  },
 };
 
 export const revalidate = 30;

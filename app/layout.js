@@ -5,26 +5,48 @@ import Footer from '@/components/layout/Footer';
 export const metadata = {
   metadataBase: new URL('https://theworstsaid.com'),
   title: {
-    default: 'The Worst Said — Words That Stayed With Us',
+    default: 'The Worst Said — A Curated Archive of Unspoken Truths',
     template: '%s | The Worst Said',
   },
-  description: 'An anonymous space for the worst things ever said — the words we spoke and the ones we carry. Share your story.',
-  keywords: ['worst things said', 'anonymous confessions', 'hurtful words', 'things people say', 'unsaid words', 'confessional', 'anonymous sharing'],
+  description: 'Explore a curated archive of anonymous confessions — the worst things ever said and the words that stayed. A premium sanctuary for catharsis, healing, and the permanent residue of the human condition.',
+  keywords: [
+    'anonymous confessions',
+    'worst things said in relationships',
+    'hurtful words in a relationship',
+    'relationship regrets',
+    'verbal abuse in relationships',
+    'breakup trauma',
+    'unsaid words',
+    'anonymous venting',
+    'confessional platform',
+    'healing from hurtful words',
+    'things people say during breakups',
+    'toxic relationship confessions',
+    'emotional abuse confessions',
+    'words that hurt',
+    'relationship closure',
+    'micro-hurts in relationships',
+    'ghostlighting',
+    'post-breakup grief',
+    'anonymous sharing platform',
+  ],
   authors: [{ name: 'The Worst Said' }],
   creator: 'The Worst Said',
   publisher: 'The Worst Said',
+  category: 'Mental Health & Relationships',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: 'https://theworstsaid.com',
     siteName: 'The Worst Said',
-    title: 'The Worst Said — Words That Stayed With Us',
-    description: 'An anonymous space for the worst things ever said — the words we spoke and the ones we carry.',
+    title: 'The Worst Said — A Curated Archive of Unspoken Truths',
+    description: 'A premium anonymous sanctuary for the worst things ever said. Explore confessions of guilt, regret, and the words that altered lives forever.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'The Worst Said — Words That Stayed With Us',
-    description: 'An anonymous space for the worst things ever said.',
+    title: 'The Worst Said — A Curated Archive of Unspoken Truths',
+    description: 'A premium anonymous sanctuary for the worst things ever said. Explore confessions of guilt, regret, and the words that stayed.',
+    creator: '@theworstsaid',
   },
   robots: {
     index: true,
@@ -47,12 +69,27 @@ export default function RootLayout({ children }) {
     '@type': 'WebSite',
     name: 'The Worst Said',
     url: 'https://theworstsaid.com',
-    description: 'An anonymous space for the worst things ever said — the words we spoke and the ones we carry.',
+    description: 'A curated archive of anonymous confessions — the worst things ever said, the words that stayed, and the truths we carry. A premium sanctuary for catharsis and healing.',
     potentialAction: {
       '@type': 'SearchAction',
       target: 'https://theworstsaid.com/wall?q={search_term_string}',
       'query-input': 'required name=search_term_string',
     },
+    publisher: {
+      '@type': 'Organization',
+      name: 'The Worst Said',
+      url: 'https://theworstsaid.com',
+      description: 'An anonymous confessional platform curating the worst things ever said — a digital sanctuary for catharsis, reflection, and collective healing.',
+    },
+  };
+
+  const organizationLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'The Worst Said',
+    url: 'https://theworstsaid.com',
+    description: 'A premium anonymous confessional platform exploring the permanent residue of words — the cruelties inflicted and the guilt carried.',
+    sameAs: [],
   };
 
   return (
@@ -63,6 +100,10 @@ export default function RootLayout({ children }) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }}
         />
       </head>
       <body>

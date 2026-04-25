@@ -2,9 +2,15 @@ import Link from 'next/link';
 import { fetchPublishedStories } from '@/lib/data';
 
 export const metadata = {
-  title: 'Stories',
-  description: 'Read stories about the impact of words — reflections on things said and unsaid that shaped lives forever.',
+  title: 'Stories — Essays on Words, Relationships & Healing',
+  description: 'Read editorial essays exploring the psychology of hurtful words, breakup trauma, micro-hurts in relationships, ghostlighting, and the neuroscience behind why cruel words break us. Curated long-form content on The Worst Said.',
+  keywords: ['psychology of hurtful words', 'breakup essays', 'micro-hurts in relationships', 'ghostlighting dating', 'verbal abuse psychology', 'healing from cruel words', 'relationship essays'],
   alternates: { canonical: 'https://theworstsaid.com/stories' },
+  openGraph: {
+    title: 'Stories — Essays on Words, Relationships & Healing',
+    description: 'Profound editorial essays exploring micro-hurts, ghostlighting, breakup trauma, and the permanent residue of cruel words.',
+    type: 'website',
+  },
 };
 
 export const revalidate = 300;

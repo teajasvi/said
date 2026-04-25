@@ -6,6 +6,15 @@ export default function robots() {
         allow: '/',
         disallow: ['/admin/', '/api/'],
       },
+      {
+        userAgent: 'Googlebot',
+        allow: '/',
+        disallow: ['/admin/', '/api/admin/'],
+      },
+      {
+        userAgent: 'Mediapartners-Google',
+        allow: '/',
+      },
     ],
     sitemap: 'https://theworstsaid.com/sitemap.xml',
   };

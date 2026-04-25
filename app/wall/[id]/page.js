@@ -11,24 +11,29 @@ export async function generateMetadata({ params }) {
   }
 
   const tagLabel = submission.tag === 'i_said_it' ? 'I said it' : 'It was said to me';
+  const tagContext = submission.tag === 'i_said_it'
+    ? 'An anonymous confession of guilt and regret'
+    : 'An anonymous account of words that cut deep';
   const truncatedText = submission.text.length > 120
     ? submission.text.slice(0, 120) + '…'
     : submission.text;
 
   return {
     title: `"${truncatedText}" — ${tagLabel}`,
-    description: `${tagLabel}: "${submission.text}" — An anonymous confession on The Worst Said.`,
+    description: `${tagContext}: "${submission.text}" — shared anonymously on The Worst Said, a curated archive of the worst things ever said.`,
+    keywords: ['anonymous confession', 'worst things said', tagLabel.toLowerCase(), 'relationship confession', 'hurtful words'],
     alternates: { canonical: `https://theworstsaid.com/wall/${id}` },
     openGraph: {
       title: `"${truncatedText}"`,
-      description: `${tagLabel} — shared anonymously on The Worst Said.`,
+      description: `${tagLabel} — ${tagContext}. Shared anonymously on The Worst Said.`,
       type: 'article',
       publishedTime: submission.created_at,
+      siteName: 'The Worst Said',
     },
     twitter: {
-      card: 'summary',
+      card: 'summary_large_image',
       title: `"${truncatedText}"`,
-      description: `${tagLabel} — The Worst Said.`,
+      description: `${tagLabel} — shared anonymously on The Worst Said.`,
     },
   };
 }
