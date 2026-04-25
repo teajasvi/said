@@ -159,7 +159,7 @@ ul, ol { list-style: none; }
 @media (max-width: 768px) {
   .desktop-only { display: none; }
   .mobile-only { display: block; }
-  .submission-card { aspect-ratio: auto; height: 370px; }
+  .submission-card { aspect-ratio: auto; height: 325px; }
   .submission-card__text { font-size: 15px; line-height: 1.6; }
 }
 
