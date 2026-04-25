@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+const ADMIN_PATH = `/${process.env.NEXT_PUBLIC_ADMIN_PANEL_PATH || 'admin'}`;
+
 export default function AdminLoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -26,7 +28,7 @@ export default function AdminLoginPage() {
         return;
       }
 
-      router.push('/admin/dashboard');
+      router.push(`${ADMIN_PATH}/dashboard`);
     } catch {
       setError('Network error.');
       setLoading(false);
