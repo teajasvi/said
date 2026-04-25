@@ -298,6 +298,7 @@ ul, ol { list-style: none; }
   padding: 8px 20px; font-size: 0.8125rem; font-weight: 500;
   border: 1px solid var(--border); border-radius: 100px; color: var(--text-secondary);
   transition: all var(--transition); background: var(--bg-surface);
+  -webkit-tap-highlight-color: transparent; cursor: pointer;
 }
 .filter-tab:hover { border-color: var(--text-secondary); color: var(--text-primary); }
 .filter-tab--active { background: var(--text-primary); color: var(--bg-primary); border-color: var(--text-primary); }
