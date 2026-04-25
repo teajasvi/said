@@ -1,14 +1,10 @@
 'use client';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-
-const ADMIN_PATH = `/${process.env.NEXT_PUBLIC_ADMIN_PANEL_PATH || 'admin'}`;
 
 export default function AdminLoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +24,7 @@ export default function AdminLoginPage() {
         return;
       }
 
-      window.location.href = `${ADMIN_PATH}/dashboard`;
+      window.location.href = '/admin/dashboard';
     } catch {
       setError('Network error.');
       setLoading(false);
