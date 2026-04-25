@@ -25,6 +25,24 @@ export default function SharePage() {
         <div className="animate-fade-in-up stagger-2">
           <SubmitForm />
         </div>
+
+        {/* Disclaimer for unsent memories */}
+        <div className="animate-fade-in-up stagger-3" style={{ marginTop: '56px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ height: '1px', background: 'var(--border)', width: '40px', marginBottom: '24px' }} />
+          <p style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', marginBottom: '16px', lineHeight: '1.6', maxWidth: '320px' }}>
+            This space is exclusively for the worst things ever said. No off-topic entries.<br />
+            For unsent memories and letters, please visit:
+          </p>
+          <a 
+            href="https://www.ifonlyisentthis.com/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="btn btn-ghost"
+            style={{ fontSize: '0.75rem', padding: '8px 16px', border: '1px solid var(--border)', borderRadius: '100px', letterSpacing: '0.04em' }}
+          >
+            ifonlyisentthis.com ↗
+          </a>
+        </div>
       </div>
     </section>
   );
