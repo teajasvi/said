@@ -89,8 +89,22 @@ export async function DELETE(request) {
     if (!id) return NextResponse.json({ error: 'ID required.' }, { status: 400 });
 
     const supabase = getSupabaseAdmin();
-    const { error } = await supabase.from('submissions').delete().eq('id', id);
+    let error;
+    if (Array.isArray(id)) {
+      if (id.length > 0) {
+        const { error: batchError } = await supabase.from('submissions').delete().in('id', id);
+        error = batchError;
+      }
+    } else {
+      const { error: singleError } = await supabase.from('submissions').delete().eq('id', id);
+      error = singleError;
+    }
     if (error) throw error;
+
+    try {
+      const { invalidateSubmissionCaches } = await import('@/lib/redis');
+      await invalidateSubmissionCaches();
+    } catch {}
 
     return NextResponse.json({ success: true });
   } catch (err) {
