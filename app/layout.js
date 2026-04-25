@@ -34,6 +34,14 @@ export const metadata = {
   creator: 'The Worst Said',
   publisher: 'The Worst Said',
   category: 'Mental Health & Relationships',
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
@@ -41,12 +49,14 @@ export const metadata = {
     siteName: 'The Worst Said',
     title: 'The Worst Said — A Curated Archive of Unspoken Truths',
     description: 'A premium anonymous sanctuary for the worst things ever said. Explore confessions of guilt, regret, and the words that altered lives forever.',
+    images: [{ url: '/opengraph-image.png', width: 512, height: 512, alt: 'The Worst Said' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'The Worst Said — A Curated Archive of Unspoken Truths',
     description: 'A premium anonymous sanctuary for the worst things ever said. Explore confessions of guilt, regret, and the words that stayed.',
     creator: '@theworstsaid',
+    images: ['/opengraph-image.png'],
   },
   robots: {
     index: true,
