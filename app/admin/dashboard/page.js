@@ -2,6 +2,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 
+const ADMIN_PATH = `/${process.env.NEXT_PUBLIC_ADMIN_PANEL_PATH || 'admin'}`;
+
 export default function AdminDashboard() {
   const router = useRouter();
   const [submissions, setSubmissions] = useState([]);
@@ -25,12 +27,12 @@ export default function AdminDashboard() {
     setLoading(true);
     try {
       const res = await fetch(`/api/admin/submissions?status=${statusFilter}&page=${page}`);
-      if (res.status === 401) { router.push('/admin'); return; }
+      if (res.status === 401) { router.push(ADMIN_PATH); return; }
       const data = await res.json();
       setSubmissions(data.submissions || []);
       setTotalPages(data.totalPages || 1);
       setTotal(data.total || 0);
-    } catch { router.push('/admin'); }
+    } catch { router.push(ADMIN_PATH); }
     setLoading(false);
     setSelected(new Set());
   }, [statusFilter, page, router]);
@@ -111,7 +113,7 @@ export default function AdminDashboard() {
 
   const handleLogout = async () => {
     await fetch('/api/admin/logout', { method: 'POST' });
-    router.push('/admin');
+    router.push(ADMIN_PATH);
   };
 
   // === Helpers ===
