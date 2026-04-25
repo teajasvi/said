@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { fetchSubmissionById } from '@/lib/data';
+import LocalDate from '@/components/ui/LocalDate';
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
@@ -49,19 +50,6 @@ export default async function SubmissionDetailPage({ params }) {
   const tagLabel = submission.tag === 'i_said_it' ? 'I said it' : 'It was said to me';
   const colorClass = submission.tag === 'i_said_it' ? 'color-a' : 'color-b';
 
-  const date = new Date(submission.created_at);
-  const formattedDate = date.toLocaleDateString('en-US', {
-    weekday: 'long',
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  });
-  const formattedTime = date.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  });
-
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'CreativeWork',
@@ -99,8 +87,7 @@ export default async function SubmissionDetailPage({ params }) {
                 <span className="detail-card__tag">{tagLabel}</span>
               </div>
               <div className="detail-card__date">
-                <span>{formattedDate}</span>
-                <span>{formattedTime}</span>
+                <LocalDate date={submission.created_at} />
               </div>
             </div>
           </article>

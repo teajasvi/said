@@ -1,21 +1,10 @@
 import Link from 'next/link';
+import LocalDate from '@/components/ui/LocalDate';
 
 /** Submission Card — displays a single submission, clickable to detail page */
 export default function SubmissionCard({ id, text, tag, createdAt, index = 0 }) {
   const colorClass = index % 2 === 0 ? 'color-a' : 'color-b';
   const tagLabel = tag === 'i_said_it' ? 'I said it' : 'It was said to me';
-
-  const date = new Date(createdAt);
-  const formattedDate = date.toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  });
-  const formattedTime = date.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-    hour12: true,
-  });
 
   const cardContent = (
     <>
@@ -25,7 +14,7 @@ export default function SubmissionCard({ id, text, tag, createdAt, index = 0 }) 
       <div className="submission-card__meta">
         <span className="submission-card__tag">{tagLabel}</span>
         <span className="submission-card__date">
-          {formattedDate}<br />{formattedTime}
+          <LocalDate date={createdAt} />
         </span>
       </div>
     </>
