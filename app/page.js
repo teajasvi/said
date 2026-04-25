@@ -1,66 +1,87 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from 'next/link';
+import SubmissionCard from '@/components/cards/SubmissionCard';
+import { fetchApprovedSubmissions } from '@/lib/data';
 
-export default function Home() {
+export const revalidate = 60;
+
+export default async function HomePage() {
+  const { submissions } = await fetchApprovedSubmissions({ limit: 6 });
+  const mobileSubmissions = submissions.slice(0, 3);
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.js file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      {/* Hero Section */}
+      <section className="section--hero">
+        <div className="container">
+          <p className="heading-sm animate-fade-in" style={{ marginBottom: '16px' }}>The Worst Said</p>
+          <h1 className="heading-xl animate-fade-in-up">
+            Words that stayed<br />with us.
+          </h1>
+          <p className="section__subtitle animate-fade-in-up stagger-2">
+            An anonymous space for the worst things ever said — the ones we spoke and the ones we carry. No names. No judgement. Just words.
           </p>
+          <div className="animate-fade-in-up stagger-3" style={{ marginTop: '32px', display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link href="/share" className="btn btn-primary">Share Yours</Link>
+            <Link href="/wall" className="btn btn-secondary">Read The Wall</Link>
+          </div>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Recent Submissions */}
+      <section className="section">
+        <div className="container">
+          <div className="section__header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '16px' }}>
+            <div>
+              <p className="heading-sm">Recent</p>
+              <h2 className="heading-lg" style={{ marginTop: '8px' }}>From The Wall</h2>
+            </div>
+            <Link href="/wall" className="btn btn-ghost" style={{ marginBottom: '4px' }}>
+              View All →
+            </Link>
+          </div>
+
+          {submissions.length > 0 ? (
+            <>
+              {/* Desktop: 6 cards */}
+              <div className="desktop-only">
+                <div className="card-grid-desktop">
+                  {submissions.map((sub, i) => (
+                    <SubmissionCard key={sub.id} id={sub.id} text={sub.text} tag={sub.tag} createdAt={sub.created_at} index={i} />
+                  ))}
+                </div>
+              </div>
+
+              {/* Mobile: 3 cards */}
+              <div className="mobile-only">
+                <div className="card-grid-mobile">
+                  {mobileSubmissions.map((sub, i) => (
+                    <SubmissionCard key={sub.id} id={sub.id} text={sub.text} tag={sub.tag} createdAt={sub.created_at} index={i} />
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="text-center" style={{ padding: '64px 0' }}>
+              <p className="heading-md" style={{ marginBottom: '12px' }}>The wall is empty</p>
+              <p className="body-lg" style={{ marginBottom: '24px' }}>Be the first to share what was said.</p>
+              <Link href="/share" className="btn btn-primary">Share Yours</Link>
+            </div>
+          )}
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="section" style={{ background: 'var(--bg-secondary)', padding: '80px 0' }}>
+        <div className="container text-center">
+          <h2 className="heading-lg" style={{ marginBottom: '16px' }}>Everyone carries words.</h2>
+          <p className="section__subtitle">
+            Whether you said it or someone said it to you — you are not alone. Share anonymously, heal collectively.
+          </p>
+          <div style={{ marginTop: '32px' }}>
+            <Link href="/share" className="btn btn-primary">Share Your Words</Link>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
