@@ -111,7 +111,7 @@ ul, ol { list-style: none; }
 .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
 
 .submission-card {
-  aspect-ratio: 4/5; padding: 20px; display: flex; flex-direction: column;
+  aspect-ratio: 9/10; padding: 20px; display: flex; flex-direction: column;
   justify-content: space-between; color: var(--card-text); width: 100%;
 }
 .submission-card.color-a { background: var(--card-a); }
