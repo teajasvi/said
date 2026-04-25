@@ -119,10 +119,20 @@ ul, ol { list-style: none; }
 
 .submission-card__text {
   font-family: var(--font-serif); font-size: 14px; line-height: 1.6;
-  font-weight: 400; flex: 1; display: flex; align-items: flex-start;
+  font-weight: 400; flex: 1; display: flex; align-items: center;
   word-break: break-word; overflow-wrap: break-word; hyphens: auto;
   overflow: hidden;
 }
+
+/* Compact cards for dense wall grid */
+.card-grid-desktop .submission-card {
+  aspect-ratio: auto; min-height: 200px; padding: 16px;
+}
+.card-grid-desktop .submission-card__text {
+  font-size: 12px; line-height: 1.5;
+}
+.card-grid-desktop .submission-card__tag { font-size: 0.5625rem; }
+.card-grid-desktop .submission-card__date { font-size: 0.5rem; }
 .submission-card__meta {
   display: flex; justify-content: space-between; align-items: flex-end;
   gap: 8px; padding-top: 12px; border-top: 1px solid rgba(247,245,242,0.12);
