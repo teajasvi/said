@@ -267,9 +267,14 @@ ul, ol { list-style: none; }
 .footer__copy { font-size: 0.75rem; color: var(--text-secondary); }
 
 @media (max-width: 768px) {
-  .footer__inner { flex-direction: column; gap: 24px; }
-  .footer__nav { gap: 16px; }
-  .footer__bottom { flex-direction: column; gap: 8px; text-align: center; }
+  .footer { padding: 32px 0; margin-top: 48px; }
+  .footer__inner { flex-direction: column; align-items: center; gap: 20px; }
+  .footer__brand { align-items: center; text-align: center; }
+  .footer__desc { display: none; }
+  .footer__nav { justify-content: center; gap: 16px; }
+  .footer__link { font-size: 0.75rem; }
+  .footer__bottom { flex-direction: column; gap: 4px; text-align: center; padding-top: 16px; margin-top: 16px; }
+  .footer__copy { font-size: 0.6875rem; }
 }
 
 /* ===== Sections ===== */
