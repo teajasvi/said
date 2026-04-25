@@ -1,10 +1,12 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function AdminLoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,7 +26,7 @@ export default function AdminLoginPage() {
         return;
       }
 
-      window.location.href = '/admin/dashboard';
+      router.push('/admin/dashboard');
     } catch {
       setError('Network error.');
       setLoading(false);

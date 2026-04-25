@@ -1,7 +1,9 @@
 'use client';
 import { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function AdminDashboard() {
+  const router = useRouter();
   const [submissions, setSubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('pending');
@@ -23,15 +25,15 @@ export default function AdminDashboard() {
     setLoading(true);
     try {
       const res = await fetch(`/api/admin/submissions?status=${statusFilter}&page=${page}`);
-      if (res.status === 401) { window.location.href = '/admin'; return; }
+      if (res.status === 401) { router.push('/admin'); return; }
       const data = await res.json();
       setSubmissions(data.submissions || []);
       setTotalPages(data.totalPages || 1);
       setTotal(data.total || 0);
-    } catch { window.location.href = '/admin'; }
+    } catch { router.push('/admin'); }
     setLoading(false);
     setSelected(new Set());
-  }, [statusFilter, page]);
+  }, [statusFilter, page, router]);
 
   useEffect(() => { fetchSubmissions(); }, [fetchSubmissions]);
 
@@ -109,7 +111,7 @@ export default function AdminDashboard() {
 
   const handleLogout = async () => {
     await fetch('/api/admin/logout', { method: 'POST' });
-    window.location.href = '/admin';
+    router.push('/admin');
   };
 
   // === Helpers ===

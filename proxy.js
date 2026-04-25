@@ -13,12 +13,11 @@ function getClientIp(request) {
 }
 
 async function isAuthenticated(request) {
-  const forceLogout = request.cookies.get('tws_force_logout');
-  if (forceLogout?.value === '1') return false;
-
+  // 1. IP whitelist
   const ips = getClientIp(request);
   if (WHITELISTED_IPS.length > 0 && ips.some(ip => WHITELISTED_IPS.includes(ip))) return true;
 
+  // 2. Valid JWT cookie
   const cookie = request.cookies.get(COOKIE_NAME);
   if (!cookie?.value) return false;
   try {
@@ -44,18 +43,18 @@ export async function proxy(request) {
     "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://*.upstash.io; frame-ancestors 'none';"
   );
 
-  // Admin auth
+  // Admin routes auth
   if (pathname.startsWith('/admin')) {
     response.headers.set('X-Robots-Tag', 'noindex, nofollow');
 
     const authed = await isAuthenticated(request);
 
-    // Authed + on login page → go to dashboard
+    // Auto-redirect whitelisted/authed users from login → dashboard
     if (pathname === '/admin' && authed) {
       return NextResponse.redirect(new URL('/admin/dashboard', request.url));
     }
 
-    // Not authed + on dashboard → go to login
+    // Block dashboard for unauthenticated users
     if (pathname.startsWith('/admin/dashboard') && !authed) {
       return NextResponse.redirect(new URL('/admin', request.url));
     }
