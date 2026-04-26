@@ -19,21 +19,18 @@ export const metadata = {
 export const revalidate = 120;
 
 const DESKTOP_LIMIT = 18;
-const MOBILE_LIMIT = 10;
 
 export default async function WallPage({ searchParams }) {
   const params = await searchParams;
   const page = Math.max(1, parseInt(params?.page || '1', 10));
   const filter = params?.filter || 'all';
 
-  // Fetch enough for desktop (mobile will slice)
   const { submissions, totalPages, total } = await fetchApprovedSubmissions({
     limit: DESKTOP_LIMIT,
     page,
     tag: filter,
   });
 
-  const mobileSubmissions = submissions.slice(0, MOBILE_LIMIT);
   const searchParamsObj = {};
   if (filter !== 'all') searchParamsObj.filter = filter;
 
@@ -72,7 +69,7 @@ export default async function WallPage({ searchParams }) {
         {/* Mobile Grid */}
         <div className="mobile-only">
           <div className="card-grid-mobile">
-            {mobileSubmissions.map((sub, i) => (
+            {submissions.map((sub, i) => (
               <SubmissionCard
                 key={sub.id}
                 id={sub.id}
@@ -94,25 +91,12 @@ export default async function WallPage({ searchParams }) {
           </div>
         )}
 
-        {/* Desktop Pagination */}
-        <div className="desktop-only">
-          <Pagination
-            currentPage={page}
-            totalPages={totalPages}
-            basePath="/wall"
-            searchParams={searchParamsObj}
-          />
-        </div>
-
-        {/* Mobile Pagination — uses mobile total pages */}
-        <div className="mobile-only">
-          <Pagination
-            currentPage={page}
-            totalPages={Math.ceil(total / MOBILE_LIMIT)}
-            basePath="/wall"
-            searchParams={searchParamsObj}
-          />
-        </div>
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          basePath="/wall"
+          searchParams={searchParamsObj}
+        />
       </div>
     </section>
   );
