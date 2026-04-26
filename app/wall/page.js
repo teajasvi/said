@@ -41,8 +41,7 @@ export default async function WallPage({ searchParams }) {
     <section className="section" style={{ paddingTop: '40px' }}>
       <div className="container">
         <div className="section__header">
-          <p className="heading-sm">Archive</p>
-          <h1 className="heading-lg" style={{ marginTop: '8px' }}>The Wall</h1>
+          <h1 className="heading-lg">The Wall</h1>
           <p className="body-lg" style={{ marginTop: '8px', maxWidth: '480px' }}>
             {total > 0 ? `${total.toLocaleString()} confessions and counting.` : 'No submissions yet.'}
           </p>
