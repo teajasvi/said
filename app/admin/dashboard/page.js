@@ -38,7 +38,14 @@ export default function AdminDashboard() {
   useEffect(() => { fetchSubmissions(); }, [fetchSubmissions]);
 
   // === Actions ===
+  const ADMIN_PIN = '2000';
+  const verifyPin = () => {
+    const pin = prompt('Enter admin PIN to confirm:');
+    return pin === ADMIN_PIN;
+  };
+
   const handleAction = async (id, action) => {
+    if (action === 'reject' && !verifyPin()) return;
     setActionLoading(id);
     try {
       await fetch('/api/admin/submissions', {
@@ -55,6 +62,7 @@ export default function AdminDashboard() {
   const handleBulkAction = async (action) => {
     const ids = [...selected];
     if (!ids.length) return;
+    if ((action === 'reject' || action === 'delete') && !verifyPin()) return;
     const label = action === 'approve' ? 'Approve' : action === 'reject' ? 'Reject' : 'Delete';
     if (!confirm(`${label} ${ids.length} selected submission${ids.length > 1 ? 's' : ''}?`)) return;
     setActionLoading('bulk');
@@ -79,6 +87,7 @@ export default function AdminDashboard() {
   };
 
   const handleDelete = async (id) => {
+    if (!verifyPin()) return;
     if (!confirm('Delete this submission permanently?')) return;
     setActionLoading(id);
     try {
@@ -94,6 +103,7 @@ export default function AdminDashboard() {
   };
 
   const handleBan = async (sub) => {
+    if (!verifyPin()) return;
     if (!confirm(`Ban user ${sub.user_uuid?.slice(0, 8)}...?`)) return;
     try {
       await fetch('/api/admin/ban', {
