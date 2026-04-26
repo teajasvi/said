@@ -45,6 +45,11 @@ export async function proxy(request) {
 
   // Admin routes auth
   if (pathname.startsWith('/admin')) {
+    // Cloudflare challenge sends POST after verification — redirect to GET
+    if (request.method === 'POST' && !pathname.startsWith('/api/')) {
+      return NextResponse.redirect(new URL(pathname, request.url), 303);
+    }
+
     response.headers.set('X-Robots-Tag', 'noindex, nofollow');
 
     const authed = await isAuthenticated(request);
