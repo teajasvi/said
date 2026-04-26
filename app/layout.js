@@ -117,6 +117,14 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
+        <script dangerouslySetInnerHTML={{ __html: `
+          document.addEventListener('contextmenu', e => e.preventDefault());
+          document.addEventListener('keydown', e => {
+            if ((e.ctrlKey || e.metaKey) && ['c','u','s','a','p'].includes(e.key.toLowerCase())) e.preventDefault();
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['i','j','c'].includes(e.key.toLowerCase()))) e.preventDefault();
+          });
+          document.addEventListener('dragstart', e => e.preventDefault());
+        `}} />
         <Header />
         <main className="page-wrapper" id="main-content">
           {children}

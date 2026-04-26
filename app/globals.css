@@ -493,3 +493,14 @@ ul, ol { list-style: none; }
 .divider { height: 1px; background: var(--border); margin: 48px 0; }
 .text-center { text-align: center; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+
+/* ===== Content Protection ===== */
+body {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+img { pointer-events: none; -webkit-user-drag: none; user-drag: none; }
+input, textarea { -webkit-user-select: text; user-select: text; }
