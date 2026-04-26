@@ -95,12 +95,25 @@ export default async function WallPage({ searchParams }) {
           </div>
         )}
 
-        <Pagination
-          currentPage={page}
-          totalPages={totalPages}
-          basePath="/wall"
-          searchParams={searchParamsObj}
-        />
+        {/* Desktop Pagination */}
+        <div className="desktop-only">
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            basePath="/wall"
+            searchParams={searchParamsObj}
+          />
+        </div>
+
+        {/* Mobile Pagination — uses mobile total pages */}
+        <div className="mobile-only">
+          <Pagination
+            currentPage={page}
+            totalPages={Math.ceil(total / MOBILE_LIMIT)}
+            basePath="/wall"
+            searchParams={searchParamsObj}
+          />
+        </div>
       </div>
     </section>
   );
