@@ -44,11 +44,13 @@ export async function GET(request) {
 /** POST /api/submissions — Public: create a new submission */
 export async function POST(request) {
   try {
-    // Get client IP
+    // Get client IP and country
     const headersList = await headers();
-    const ip = headersList.get('x-forwarded-for')?.split(',')[0]?.trim()
+    const ip = headersList.get('cf-connecting-ip')
+      || headersList.get('x-forwarded-for')?.split(',')[0]?.trim()
       || headersList.get('x-real-ip')
       || 'unknown';
+    const country = headersList.get('cf-ipcountry') || 'XX';
 
     // Parse body
     let body;
@@ -106,6 +108,7 @@ export async function POST(request) {
         ip_address: ip,
         user_uuid: userUuid,
         word_count: countWords(sanitized),
+        country,
       });
 
     if (insertError) throw insertError;

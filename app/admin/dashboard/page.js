@@ -138,6 +138,11 @@ export default function AdminDashboard() {
 
   const tagLabel = (t) => t === 'i_said_it' ? 'I said it' : 'Said to me';
 
+  const countryFlag = (code) => {
+    if (!code || code.length !== 2) return '';
+    return String.fromCodePoint(...[...code.toUpperCase()].map(c => 0x1F1E6 + c.charCodeAt(0) - 65));
+  };
+
   const filteredSubmissions = search
     ? submissions.filter(s => s.text.toLowerCase().includes(search.toLowerCase()))
     : submissions;
@@ -295,7 +300,10 @@ export default function AdminDashboard() {
                         <span style={s.mono}>{formatDate(sub.created_at)}</span>
                       </td>
                       <td style={s.td}>
-                        <div style={s.mono}>{sub.ip_address}</div>
+                        <div style={s.mono}>
+                          {sub.country && sub.country !== 'XX' && <span style={{ marginRight: '4px' }}>{countryFlag(sub.country)}</span>}
+                          {sub.ip_address}
+                        </div>
                         <div style={{ ...s.mono, marginTop: '2px' }}>{sub.user_uuid?.slice(0, 12)}…</div>
                       </td>
                       <td style={s.td}>
