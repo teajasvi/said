@@ -6,45 +6,51 @@
 BEGIN;
 
 -- ─── 1. Add moderation_flags column ───
--- Stores an array of flag labels from the server-side moderation engine.
--- Examples: ['self-harm-encouragement'], ['violent-threat', 'identity-threat']
--- NULL or empty = no flags detected.
 ALTER TABLE submissions ADD COLUMN IF NOT EXISTS moderation_flags TEXT[] DEFAULT NULL;
 
--- ─── 2. Revoke excessive grants ───
--- Currently anon and authenticated have SELECT, INSERT, UPDATE, DELETE
--- on ALL tables. This is far too permissive.
-
--- Revoke everything first, then grant back only what's needed.
+-- ─── 2. Revoke ALL existing grants ───
+-- Start from a clean slate. This is critical because Supabase's
+-- auto-generated REST API exposes ANY column the role can SELECT.
+-- A scraper with the anon key could dump the entire submissions table
+-- including ip_address, user_uuid, moderation_flags, etc.
 REVOKE ALL ON TABLE submissions FROM anon, authenticated;
 REVOKE ALL ON TABLE banned_users FROM anon, authenticated;
 REVOKE ALL ON TABLE stories FROM anon, authenticated;
 
--- anon: can SELECT (approved only, via RLS) and INSERT (new submissions)
-GRANT SELECT, INSERT ON TABLE submissions TO anon;
--- anon: can read published stories
-GRANT SELECT ON TABLE stories TO anon;
--- anon: NO access to banned_users (service_role only)
+-- ─── 3. Column-level grants for submissions ───
+-- anon SELECT: ONLY the columns needed for public display.
+-- This prevents the Supabase REST API from leaking ip_address,
+-- user_uuid, moderation_flags, word_count, country, or status
+-- even if someone queries the REST API directly with the anon key.
+GRANT SELECT (id, text, tag, created_at) ON TABLE submissions TO anon;
+GRANT SELECT (id, text, tag, created_at) ON TABLE submissions TO authenticated;
 
--- authenticated: same as anon for this app (no user accounts)
-GRANT SELECT, INSERT ON TABLE submissions TO authenticated;
-GRANT SELECT ON TABLE stories TO authenticated;
+-- anon INSERT: allow submitting new entries with all needed fields.
+-- The INSERT RLS policy enforces status='pending'.
+GRANT INSERT (text, tag, status, ip_address, user_uuid, word_count, country, moderation_flags) ON TABLE submissions TO anon;
+GRANT INSERT (text, tag, status, ip_address, user_uuid, word_count, country, moderation_flags) ON TABLE submissions TO authenticated;
 
--- service_role: full access (used by admin API routes, bypasses RLS)
+-- ─── 4. Stories: read-only for public, only safe columns ───
+GRANT SELECT (id, title, slug, excerpt, content, meta_description, created_at) ON TABLE stories TO anon;
+GRANT SELECT (id, title, slug, excerpt, content, meta_description, created_at) ON TABLE stories TO authenticated;
+
+-- ─── 5. banned_users: NO access for anon/authenticated ───
+-- (no GRANT = no access). Only service_role can read/write bans.
+
+-- ─── 6. service_role: full access (admin API routes, bypasses RLS) ───
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE submissions TO service_role;
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE banned_users TO service_role;
 GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE stories TO service_role;
 
--- ─── 3. Tighten the INSERT policy ───
--- The current policy is: WITH CHECK (true) — allows inserting ANY values
--- including status='approved' or manipulating approved_at from the client.
--- Replace it with a policy that enforces status='pending'.
+-- ─── 7. Tighten the INSERT RLS policy ───
+-- Replace the old WITH CHECK (true) with one that enforces status='pending'.
+-- This prevents a client from inserting status='approved' directly.
 DROP POLICY IF EXISTS "Public can insert submissions" ON submissions;
 CREATE POLICY "Public can insert submissions"
   ON submissions FOR INSERT
   WITH CHECK (status = 'pending');
 
--- ─── 4. Index for moderation_flags (for admin filtering) ───
+-- ─── 8. Index for moderation_flags (admin filtering) ───
 CREATE INDEX IF NOT EXISTS idx_submissions_moderation_flags
   ON submissions USING GIN (moderation_flags)
   WHERE moderation_flags IS NOT NULL;
