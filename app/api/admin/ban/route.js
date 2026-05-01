@@ -21,6 +21,21 @@ export async function POST(request) {
     });
 
     if (error) throw error;
+
+    // Auto-reject all pending submissions from this user
+    const orFilters = [
+      ip_address ? `ip_address.eq.${ip_address}` : null,
+      user_uuid ? `user_uuid.eq.${user_uuid}` : null,
+    ].filter(Boolean).join(',');
+
+    if (orFilters) {
+      await supabase
+        .from('submissions')
+        .update({ status: 'rejected' })
+        .eq('status', 'pending')
+        .or(orFilters);
+    }
+
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error('[Admin] Ban error:', err.message);

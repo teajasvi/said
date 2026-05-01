@@ -87,7 +87,7 @@ export async function POST(request) {
       .limit(1);
 
     if (banCheck && banCheck.length > 0) {
-      return NextResponse.json({ error: 'Unable to process submission.' }, { status: 403 });
+      return NextResponse.json({ error: 'You have been banned from submitting.' }, { status: 403 });
     }
 
     // Rate limit
