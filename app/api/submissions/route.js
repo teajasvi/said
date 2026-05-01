@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getSupabaseClient } from '@/lib/supabase/client';
 import { getSupabaseAdmin } from '@/lib/supabase/server';
 import { sanitizeText, validateSubmission, countWords } from '@/lib/validation';
+import { moderateContent } from '@/lib/moderation';
 import { checkRateLimit } from '@/lib/rateLimit';
 import { headers } from 'next/headers';
 
@@ -71,6 +72,15 @@ export async function POST(request) {
       return NextResponse.json({ error: errors[0] }, { status: 400 });
     }
 
+    // ── Server-side content moderation ──
+    // This runs BEFORE anything touches the database.
+    // Critical content (CSAM, terrorism) is hard-blocked and never stored.
+    const modResult = moderateContent(sanitized);
+    if (modResult.blocked) {
+      // Return a generic error — never reveal what was detected
+      return NextResponse.json({ error: modResult.reason }, { status: 400 });
+    }
+
     // Generate user UUID from IP (deterministic for rate limiting)
     const encoder = new TextEncoder();
     const data = encoder.encode(ip + (process.env.UUID_SALT || 'tws-salt'));
@@ -98,18 +108,27 @@ export async function POST(request) {
       }, { status: 429 });
     }
 
+    // Build submission row
+    const submissionData = {
+      text: sanitized,
+      tag,
+      status: 'pending',
+      ip_address: ip,
+      user_uuid: userUuid,
+      word_count: countWords(sanitized),
+      country,
+    };
+
+    // If moderation flagged elevated-risk content, store the flags
+    // so admin sees a warning badge when reviewing
+    if (modResult.flags.length > 0) {
+      submissionData.moderation_flags = modResult.flags;
+    }
+
     // Insert submission
     const { error: insertError } = await supabaseAdmin
       .from('submissions')
-      .insert({
-        text: sanitized,
-        tag,
-        status: 'pending',
-        ip_address: ip,
-        user_uuid: userUuid,
-        word_count: countWords(sanitized),
-        country,
-      });
+      .insert(submissionData);
 
     if (insertError) throw insertError;
 

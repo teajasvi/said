@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { fetchSubmissionById } from '@/lib/data';
+import { containsExtremeContent } from '@/lib/contentWarning';
 import LocalDate from '@/components/ui/LocalDate';
+import ContentWarning from '@/components/ui/ContentWarning';
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
@@ -49,6 +51,7 @@ export default async function SubmissionDetailPage({ params }) {
 
   const tagLabel = submission.tag === 'i_said_it' ? 'I said it' : 'It was said to me';
   const colorClass = submission.tag === 'i_said_it' ? 'color-a' : 'color-b';
+  const sensitive = containsExtremeContent(submission.text);
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -58,6 +61,23 @@ export default async function SubmissionDetailPage({ params }) {
     publisher: { '@type': 'Organization', name: 'The Worst Said' },
     isAccessibleForFree: true,
   };
+
+  const detailCard = (
+    <article className={`detail-card ${colorClass} animate-fade-in-up`}>
+      <div className="detail-card__text">
+        <p>{submission.text}</p>
+      </div>
+      <div className="detail-card__divider" />
+      <div className="detail-card__meta">
+        <div>
+          <span className="detail-card__tag">{tagLabel}</span>
+        </div>
+        <div className="detail-card__date">
+          <LocalDate date={submission.created_at} />
+        </div>
+      </div>
+    </article>
+  );
 
   return (
     <>
@@ -77,20 +97,7 @@ export default async function SubmissionDetailPage({ params }) {
           </Link>
 
           {/* The card — large, centered */}
-          <article className={`detail-card ${colorClass} animate-fade-in-up`}>
-            <div className="detail-card__text">
-              <p>{submission.text}</p>
-            </div>
-            <div className="detail-card__divider" />
-            <div className="detail-card__meta">
-              <div>
-                <span className="detail-card__tag">{tagLabel}</span>
-              </div>
-              <div className="detail-card__date">
-                <LocalDate date={submission.created_at} />
-              </div>
-            </div>
-          </article>
+          {sensitive ? <ContentWarning>{detailCard}</ContentWarning> : detailCard}
 
           {/* Actions */}
           <div className="detail-actions animate-fade-in-up stagger-2">

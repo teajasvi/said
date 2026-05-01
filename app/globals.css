@@ -504,3 +504,191 @@ body {
 }
 img { pointer-events: none; -webkit-user-drag: none; user-drag: none; }
 input, textarea { -webkit-user-select: text; user-select: text; }
+
+/* ===== Content Warning Overlay ===== */
+.cw-wrapper {
+  position: relative;
+  width: 100%;
+}
+.cw-blurred {
+  filter: blur(12px);
+  -webkit-filter: blur(12px);
+  pointer-events: none;
+  user-select: none;
+}
+.cw-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: var(--radius-md);
+  cursor: default;
+}
+.cw-overlay__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  padding: 20px;
+  max-width: 220px;
+}
+.cw-overlay__icon {
+  font-size: 1.25rem;
+  opacity: 0.7;
+  line-height: 1;
+}
+.cw-overlay__label {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--card-text);
+  opacity: 0.9;
+}
+.cw-overlay__desc {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  color: var(--card-text-muted);
+  line-height: 1.5;
+}
+.cw-overlay__btn {
+  margin-top: 8px;
+  padding: 6px 20px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--card-text);
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all var(--transition);
+  font-family: var(--font-sans);
+}
+.cw-overlay__btn:hover {
+  background: rgba(255,255,255,0.2);
+  border-color: rgba(255,255,255,0.35);
+}
+
+/* ===== Age Gate Modal ===== */
+.age-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.age-gate__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 9, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.age-gate__card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  background: #1A1918;
+  border: 1px solid #2A2927;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  animation: fadeInUp 0.4s ease-out;
+}
+.age-gate__header {
+  padding: 32px 32px 0;
+  text-align: center;
+}
+.age-gate__title {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #E8E6E3;
+  letter-spacing: -0.02em;
+}
+.age-gate__title span {
+  font-style: italic;
+  font-weight: 400;
+}
+.age-gate__body {
+  padding: 24px 32px;
+  text-align: center;
+}
+.age-gate__warning {
+  font-family: var(--font-sans);
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #B44D4D;
+  margin-bottom: 16px;
+}
+.age-gate__desc {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  color: #9A9895;
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+.age-gate__divider {
+  height: 1px;
+  background: #2A2927;
+  margin: 20px 0;
+}
+.age-gate__age {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: #C8C6C3;
+  line-height: 1.6;
+}
+.age-gate__age strong {
+  color: #E8E6E3;
+  font-weight: 600;
+}
+.age-gate__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 32px 32px;
+}
+.age-gate__accept {
+  width: 100%;
+  padding: 14px;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #111110;
+  background: #E8E6E3;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.age-gate__accept:hover {
+  background: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+.age-gate__leave {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: #6B6966;
+  text-align: center;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition);
+}
+.age-gate__leave:hover {
+  color: #9A9895;
+  background: rgba(255,255,255,0.04);
+}

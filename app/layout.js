@@ -1,6 +1,7 @@
 import './globals.css';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import AgeGate from '@/components/ui/AgeGate';
 
 export const metadata = {
   metadataBase: new URL('https://theworstsaid.com'),
@@ -125,6 +126,7 @@ export default function RootLayout({ children }) {
           });
           document.addEventListener('dragstart', e => e.preventDefault());
         `}} />
+        <AgeGate />
         <Header />
         <main className="page-wrapper" id="main-content">
           {children}

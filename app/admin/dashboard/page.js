@@ -115,7 +115,8 @@ export default function AdminDashboard() {
           reason: 'Banned from admin panel',
         }),
       });
-      showToast('User banned');
+      showToast('User banned — their pending submissions were rejected');
+      fetchSubmissions();
     } catch (err) { showToast('Ban failed', 'error'); }
   };
 
@@ -151,6 +152,28 @@ export default function AdminDashboard() {
   const countryFlag = (code) => {
     if (!code || code.length !== 2) return '';
     return String.fromCodePoint(...[...code.toUpperCase()].map(c => 0x1F1E6 + c.charCodeAt(0) - 65));
+  };
+
+  const flagColors = {
+    'critical-csam': '#FF1744', 'critical-terrorism': '#FF1744',
+    'self-harm-encouragement': '#FF6D00', 'self-harm-algospeak': '#FF6D00',
+    'doxxing': '#FF9100', 'identity-threat': '#FF1744',
+    'ncsei-threat': '#FF1744', 'ncsei': '#FF1744',
+    'synthetic-media': '#FF9100', 'violent-threat': '#FF1744',
+    'sa-algospeak': '#FF6D00',
+  };
+
+  const renderFlags = (flags) => {
+    if (!flags || !Array.isArray(flags) || flags.length === 0) return null;
+    return (
+      <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', marginTop: '4px' }}>
+        {flags.map((f, i) => (
+          <span key={i} style={{ display: 'inline-block', padding: '1px 6px', borderRadius: '3px', fontSize: '0.5625rem', fontWeight: '600', letterSpacing: '0.04em', textTransform: 'uppercase', background: (flagColors[f] || '#FF9100') + '22', color: flagColors[f] || '#FF9100', border: '1px solid ' + (flagColors[f] || '#FF9100') + '44' }}>
+            ⚠ {f}
+          </span>
+        ))}
+      </div>
+    );
   };
 
   const filteredSubmissions = search
@@ -210,6 +233,7 @@ export default function AdminDashboard() {
       >
         {sub.text}
       </div>
+      {renderFlags(sub.moderation_flags)}
       <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '10px', fontSize: '0.6875rem', color: '#6B6966', fontFamily: 'monospace', flexWrap: 'wrap' }}>
         {sub.country && sub.country !== 'XX' && <span>{countryFlag(sub.country)}</span>}
         <span>{sub.ip_address}</span>
@@ -296,6 +320,7 @@ export default function AdminDashboard() {
                       <th style={s.th}><input type="checkbox" checked={allSelected} onChange={toggleSelectAll} style={s.checkbox} /></th>
                       <th style={s.th}>Submission</th>
                       <th style={s.th}>Tag</th>
+                      <th style={s.th}>Flags</th>
                       <th style={s.th}>Date</th>
                       <th style={s.th}>IP / UUID</th>
                       <th style={s.th}>Actions</th>
@@ -312,6 +337,7 @@ export default function AdminDashboard() {
                           >{sub.text}</div>
                         </td>
                         <td style={s.td}><span style={s.badge(sub.tag)}>{tagLabel(sub.tag)}</span></td>
+                        <td style={s.td}>{renderFlags(sub.moderation_flags) || <span style={s.mono}>—</span>}</td>
                         <td style={{ ...s.td, whiteSpace: 'nowrap' }}><span style={s.mono}>{formatDate(sub.created_at)}</span></td>
                         <td style={s.td}>
                           <div style={s.mono}>

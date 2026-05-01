@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import SubmissionCard from '@/components/cards/SubmissionCard';
 import { fetchApprovedSubmissions } from '@/lib/data';
+import { containsExtremeContent } from '@/lib/contentWarning';
 
 export const revalidate = 300;
 
@@ -28,7 +29,7 @@ export default async function HomePage() {
               <div className="desktop-only">
                 <div className="card-grid-home">
                   {submissions.map((sub, i) => (
-                    <SubmissionCard key={sub.id} id={sub.id} text={sub.text} tag={sub.tag} createdAt={sub.created_at} index={i} />
+                    <SubmissionCard key={sub.id} id={sub.id} text={sub.text} tag={sub.tag} createdAt={sub.created_at} index={i} sensitive={containsExtremeContent(sub.text)} />
                   ))}
                 </div>
               </div>
@@ -37,7 +38,7 @@ export default async function HomePage() {
               <div className="mobile-only">
                 <div className="card-grid-mobile">
                   {submissions.map((sub, i) => (
-                    <SubmissionCard key={sub.id} id={sub.id} text={sub.text} tag={sub.tag} createdAt={sub.created_at} index={i} />
+                    <SubmissionCard key={sub.id} id={sub.id} text={sub.text} tag={sub.tag} createdAt={sub.created_at} index={i} sensitive={containsExtremeContent(sub.text)} />
                   ))}
                 </div>
               </div>

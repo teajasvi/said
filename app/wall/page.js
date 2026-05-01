@@ -3,6 +3,7 @@ import SubmissionCard from '@/components/cards/SubmissionCard';
 import FilterTabs from '@/components/ui/FilterTabs';
 import Pagination from '@/components/ui/Pagination';
 import { fetchApprovedSubmissions } from '@/lib/data';
+import { containsExtremeContent } from '@/lib/contentWarning';
 
 export const metadata = {
   title: 'The Wall — Anonymous Confessions Archive',
@@ -61,6 +62,7 @@ export default async function WallPage({ searchParams }) {
                 tag={sub.tag}
                 createdAt={sub.created_at}
                 index={i}
+                sensitive={containsExtremeContent(sub.text)}
               />
             ))}
           </div>
@@ -77,6 +79,7 @@ export default async function WallPage({ searchParams }) {
                 tag={sub.tag}
                 createdAt={sub.created_at}
                 index={i}
+                sensitive={containsExtremeContent(sub.text)}
               />
             ))}
           </div>
