@@ -5,6 +5,48 @@ const JWT_SECRET = () => new TextEncoder().encode(process.env.JWT_SECRET);
 const COOKIE_NAME = 'tws_admin_token';
 const WHITELISTED_IPS = (process.env.ADMIN_WHITELISTED_IPS || '').split(',').map(ip => ip.trim()).filter(Boolean);
 
+// ─── Known AI training crawlers to block from UGC pages ───
+// These bots scrape content to train LLMs. We don't want traumatic
+// user-submitted content ending up in AI training datasets.
+const AI_BOT_PATTERNS = [
+  /gptbot/i,
+  /chatgpt-user/i,
+  /ccbot/i,
+  /anthropic-ai/i,
+  /claude-web/i,
+  /google-extended/i,
+  /cohere-ai/i,
+  /bytespider/i,
+  /perplexitybot/i,
+  /youbot/i,
+  /petalbot/i,
+  /amazonbot/i,
+  /facebookexternal/i,
+  /meta-externalagent/i,
+  /omgili/i,
+  /diffbot/i,
+  /applebot-extended/i,
+  /img2dataset/i,
+  /commoncrawl/i,
+];
+
+// ─── Generic scraper signatures (block on API routes) ───
+const SCRAPER_PATTERNS = [
+  /python-requests/i,
+  /python-urllib/i,
+  /scrapy/i,
+  /curl\//i,
+  /wget\//i,
+  /httpie/i,
+  /java\//i,
+  /libwww-perl/i,
+  /go-http-client/i,
+  /node-fetch/i,
+  /axios/i,
+  /php\//i,
+  /ruby/i,
+];
+
 function getClientIp(request) {
   const cfIp = request.headers.get('cf-connecting-ip') || '';
   const forwardedFor = request.headers.get('x-forwarded-for') || '';
@@ -30,9 +72,42 @@ async function isAuthenticated(request) {
 
 export async function proxy(request) {
   const { pathname } = request.nextUrl;
-  const response = NextResponse.next();
+  const ua = request.headers.get('user-agent') || '';
 
-  // Security headers
+  // ── Check if this is a legitimate search bot (never block these) ──
+  const isLegitBot = /googlebot|bingbot|mediapartners|adsbot|slurp|duckduckbot|yandexbot|baiduspider/i.test(ua);
+
+  // ── Block AI training crawlers from all pages ──
+  if (!isLegitBot) {
+    for (const pattern of AI_BOT_PATTERNS) {
+      if (pattern.test(ua)) {
+        return new NextResponse('Forbidden', { status: 403 });
+      }
+    }
+  }
+
+  // ── Block generic scrapers from the public API ──
+  if (pathname.startsWith('/api/submissions') && !isLegitBot) {
+    for (const pattern of SCRAPER_PATTERNS) {
+      if (pattern.test(ua)) {
+        return new NextResponse(JSON.stringify({ error: 'Forbidden' }), {
+          status: 403,
+          headers: { 'Content-Type': 'application/json' },
+        });
+      }
+    }
+  }
+
+  // ── Block empty user-agents on API routes ──
+  if (pathname.startsWith('/api/') && !ua) {
+    return new NextResponse(JSON.stringify({ error: 'Forbidden' }), {
+      status: 403,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  // ── Security headers ──
+  const response = NextResponse.next();
   response.headers.set('X-Content-Type-Options', 'nosniff');
   response.headers.set('X-Frame-Options', 'DENY');
   response.headers.set('X-XSS-Protection', '1; mode=block');
@@ -43,7 +118,7 @@ export async function proxy(request) {
     "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://*.upstash.io; frame-ancestors 'none';"
   );
 
-  // Admin routes auth
+  // ── Admin routes auth ──
   if (pathname.startsWith('/admin')) {
     // Cloudflare challenge sends POST after verification — redirect to GET
     if (request.method === 'POST' && !pathname.startsWith('/api/')) {
@@ -70,6 +145,6 @@ export async function proxy(request) {
 
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)',
+    '/((?!_next/static|_next/image|favicon.ico|icon-192.png|icon-512.png|apple-touch-icon.png|opengraph-image.png|ads.txt|robots.txt|sitemap.xml).*)',
   ],
 };
