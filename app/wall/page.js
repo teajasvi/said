@@ -2,7 +2,6 @@ import { Suspense } from 'react';
 import FilterTabs from '@/components/ui/FilterTabs';
 import { fetchApprovedSubmissions } from '@/lib/data';
 import { containsExtremeContent } from '@/lib/contentWarning';
-import NativeBanner from '@/components/ads/NativeBanner';
 import InfiniteWall from '@/components/ui/InfiniteWall';
 
 export const metadata = {
@@ -51,8 +50,6 @@ export default async function WallPage({ searchParams }) {
             <FilterTabs />
           </Suspense>
         </div>
-
-        <NativeBanner />
 
         <InfiniteWall
           initialSubmissions={submissions}

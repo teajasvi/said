@@ -1,12 +1,15 @@
 'use client';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import SubmissionCard from '@/components/cards/SubmissionCard';
+import NativeBanner from '@/components/ads/NativeBanner';
 
 const BATCH_SIZE = 18;
+const AD_AFTER_CARD = 6; // Show ad after the 6th card
 
 /**
  * InfiniteWall — client component that auto-loads more cards
  * as the user scrolls down. Gets the initial batch from SSR props.
+ * Injects a Native Banner ad after every 6th card.
  */
 export default function InfiniteWall({ initialSubmissions, initialTotal, filter, sensitiveIds }) {
   const [submissions, setSubmissions] = useState(initialSubmissions);
@@ -71,12 +74,17 @@ export default function InfiniteWall({ initialSubmissions, initialTotal, filter,
 
   const isSensitive = (id) => sensitiveIds.includes(id);
 
+  // Split submissions into: before ad + after ad
+  const beforeAd = submissions.slice(0, AD_AFTER_CARD);
+  const afterAd = submissions.slice(AD_AFTER_CARD);
+  const showAd = submissions.length > AD_AFTER_CARD;
+
   return (
     <>
       {/* Desktop Grid */}
       <div className="desktop-only">
         <div className="card-grid-desktop">
-          {submissions.map((sub, i) => (
+          {beforeAd.map((sub, i) => (
             <SubmissionCard
               key={sub.id}
               id={sub.id}
@@ -88,12 +96,32 @@ export default function InfiniteWall({ initialSubmissions, initialTotal, filter,
             />
           ))}
         </div>
+
+        {showAd && (
+          <NativeBanner />
+        )}
+
+        {afterAd.length > 0 && (
+          <div className="card-grid-desktop">
+            {afterAd.map((sub, i) => (
+              <SubmissionCard
+                key={sub.id}
+                id={sub.id}
+                text={sub.text}
+                tag={sub.tag}
+                createdAt={sub.created_at}
+                index={i + AD_AFTER_CARD}
+                sensitive={isSensitive(sub.id)}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Mobile Grid */}
       <div className="mobile-only">
         <div className="card-grid-mobile">
-          {submissions.map((sub, i) => (
+          {beforeAd.map((sub, i) => (
             <SubmissionCard
               key={sub.id}
               id={sub.id}
@@ -105,6 +133,26 @@ export default function InfiniteWall({ initialSubmissions, initialTotal, filter,
             />
           ))}
         </div>
+
+        {showAd && (
+          <NativeBanner />
+        )}
+
+        {afterAd.length > 0 && (
+          <div className="card-grid-mobile">
+            {afterAd.map((sub, i) => (
+              <SubmissionCard
+                key={sub.id}
+                id={sub.id}
+                text={sub.text}
+                tag={sub.tag}
+                createdAt={sub.created_at}
+                index={i + AD_AFTER_CARD}
+                sensitive={isSensitive(sub.id)}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {submissions.length === 0 && (
