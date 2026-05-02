@@ -52,14 +52,14 @@ export default async function WallPage({ searchParams }) {
           </Suspense>
         </div>
 
+        <NativeBanner />
+
         <InfiniteWall
           initialSubmissions={submissions}
           initialTotal={total}
           filter={filter}
           sensitiveIds={sensitiveIds}
         />
-
-        <NativeBanner />
       </div>
     </section>
   );
