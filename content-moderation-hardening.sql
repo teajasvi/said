@@ -22,8 +22,8 @@ REVOKE ALL ON TABLE stories FROM anon, authenticated;
 -- This prevents the Supabase REST API from leaking ip_address,
 -- user_uuid, moderation_flags, word_count, country, or status
 -- even if someone queries the REST API directly with the anon key.
-GRANT SELECT (id, text, tag, created_at) ON TABLE submissions TO anon;
-GRANT SELECT (id, text, tag, created_at) ON TABLE submissions TO authenticated;
+GRANT SELECT (id, text, tag, created_at, status, approved_at) ON TABLE submissions TO anon;
+GRANT SELECT (id, text, tag, created_at, status, approved_at) ON TABLE submissions TO authenticated;
 
 -- anon INSERT: allow submitting new entries with all needed fields.
 -- The INSERT RLS policy enforces status='pending'.
