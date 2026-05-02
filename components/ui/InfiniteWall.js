@@ -2,14 +2,16 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import SubmissionCard from '@/components/cards/SubmissionCard';
 import NativeBanner from '@/components/ads/NativeBanner';
+import BannerAd from '@/components/ads/BannerAd';
 
 const BATCH_SIZE = 18;
-const AD_AFTER_CARD = 6; // Show ad after the 6th card
+const NATIVE_AD_AFTER_CARD = 6; // Show native ad after the 6th card
+const BANNER_AD_AFTER_CARD = 12; // Show banner ad after the 12th card
 
 /**
  * InfiniteWall — client component that auto-loads more cards
  * as the user scrolls down. Gets the initial batch from SSR props.
- * Injects a Native Banner ad after every 6th card.
+ * Injects a Native Banner ad after 6th card, and Banner ad after 12th card.
  */
 export default function InfiniteWall({ initialSubmissions, initialTotal, filter, sensitiveIds }) {
   const [submissions, setSubmissions] = useState(initialSubmissions);
@@ -74,17 +76,20 @@ export default function InfiniteWall({ initialSubmissions, initialTotal, filter,
 
   const isSensitive = (id) => sensitiveIds.includes(id);
 
-  // Split submissions into: before ad + after ad
-  const beforeAd = submissions.slice(0, AD_AFTER_CARD);
-  const afterAd = submissions.slice(AD_AFTER_CARD);
-  const showAd = submissions.length > AD_AFTER_CARD;
+  // Split submissions into: before native ad + between ads + after banner ad
+  const chunk1 = submissions.slice(0, NATIVE_AD_AFTER_CARD);
+  const chunk2 = submissions.slice(NATIVE_AD_AFTER_CARD, BANNER_AD_AFTER_CARD);
+  const chunk3 = submissions.slice(BANNER_AD_AFTER_CARD);
+
+  const showNativeAd = submissions.length > NATIVE_AD_AFTER_CARD;
+  const showBannerAd = submissions.length > BANNER_AD_AFTER_CARD;
 
   return (
     <>
-      {/* First batch — 6 cards */}
+      {/* Chunk 1 — first 6 cards */}
       <div className="desktop-only">
         <div className="card-grid-desktop">
-          {beforeAd.map((sub, i) => (
+          {chunk1.map((sub, i) => (
             <SubmissionCard
               key={sub.id}
               id={sub.id}
@@ -99,7 +104,7 @@ export default function InfiniteWall({ initialSubmissions, initialTotal, filter,
       </div>
       <div className="mobile-only">
         <div className="card-grid-mobile">
-          {beforeAd.map((sub, i) => (
+          {chunk1.map((sub, i) => (
             <SubmissionCard
               key={sub.id}
               id={sub.id}
@@ -113,22 +118,22 @@ export default function InfiniteWall({ initialSubmissions, initialTotal, filter,
         </div>
       </div>
 
-      {/* Ad — single instance, visible on both desktop and mobile */}
-      {showAd && <NativeBanner />}
+      {/* Ad 1 — Native Banner */}
+      {showNativeAd && <NativeBanner />}
 
-      {/* Remaining cards */}
-      {afterAd.length > 0 && (
+      {/* Chunk 2 — cards 7 to 12 */}
+      {chunk2.length > 0 && (
         <>
           <div className="desktop-only">
             <div className="card-grid-desktop">
-              {afterAd.map((sub, i) => (
+              {chunk2.map((sub, i) => (
                 <SubmissionCard
                   key={sub.id}
                   id={sub.id}
                   text={sub.text}
                   tag={sub.tag}
                   createdAt={sub.created_at}
-                  index={i + AD_AFTER_CARD}
+                  index={i + NATIVE_AD_AFTER_CARD}
                   sensitive={isSensitive(sub.id)}
                 />
               ))}
@@ -136,14 +141,53 @@ export default function InfiniteWall({ initialSubmissions, initialTotal, filter,
           </div>
           <div className="mobile-only">
             <div className="card-grid-mobile">
-              {afterAd.map((sub, i) => (
+              {chunk2.map((sub, i) => (
                 <SubmissionCard
                   key={sub.id}
                   id={sub.id}
                   text={sub.text}
                   tag={sub.tag}
                   createdAt={sub.created_at}
-                  index={i + AD_AFTER_CARD}
+                  index={i + NATIVE_AD_AFTER_CARD}
+                  sensitive={isSensitive(sub.id)}
+                />
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Ad 2 — 300x250 Banner */}
+      {showBannerAd && <BannerAd />}
+
+      {/* Chunk 3 — cards 13+ */}
+      {chunk3.length > 0 && (
+        <>
+          <div className="desktop-only">
+            <div className="card-grid-desktop">
+              {chunk3.map((sub, i) => (
+                <SubmissionCard
+                  key={sub.id}
+                  id={sub.id}
+                  text={sub.text}
+                  tag={sub.tag}
+                  createdAt={sub.created_at}
+                  index={i + BANNER_AD_AFTER_CARD}
+                  sensitive={isSensitive(sub.id)}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="mobile-only">
+            <div className="card-grid-mobile">
+              {chunk3.map((sub, i) => (
+                <SubmissionCard
+                  key={sub.id}
+                  id={sub.id}
+                  text={sub.text}
+                  tag={sub.tag}
+                  createdAt={sub.created_at}
+                  index={i + BANNER_AD_AFTER_CARD}
                   sensitive={isSensitive(sub.id)}
                 />
               ))}
