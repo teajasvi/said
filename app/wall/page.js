@@ -1,10 +1,9 @@
 import { Suspense } from 'react';
-import SubmissionCard from '@/components/cards/SubmissionCard';
 import FilterTabs from '@/components/ui/FilterTabs';
-import Pagination from '@/components/ui/Pagination';
 import { fetchApprovedSubmissions } from '@/lib/data';
 import { containsExtremeContent } from '@/lib/contentWarning';
 import NativeBanner from '@/components/ads/NativeBanner';
+import InfiniteWall from '@/components/ui/InfiniteWall';
 
 export const metadata = {
   title: 'The Wall — Anonymous Confessions Archive',
@@ -20,21 +19,22 @@ export const metadata = {
 
 export const revalidate = 120;
 
-const DESKTOP_LIMIT = 18;
+const INITIAL_LIMIT = 18;
 
 export default async function WallPage({ searchParams }) {
   const params = await searchParams;
-  const page = Math.max(1, parseInt(params?.page || '1', 10));
   const filter = params?.filter || 'all';
 
-  const { submissions, totalPages, total } = await fetchApprovedSubmissions({
-    limit: DESKTOP_LIMIT,
-    page,
+  const { submissions, total } = await fetchApprovedSubmissions({
+    limit: INITIAL_LIMIT,
+    page: 1,
     tag: filter,
   });
 
-  const searchParamsObj = {};
-  if (filter !== 'all') searchParamsObj.filter = filter;
+  // Pre-compute which submissions need content warnings (server-side)
+  const sensitiveIds = submissions
+    .filter(sub => containsExtremeContent(sub.text))
+    .map(sub => sub.id);
 
   return (
     <section className="section" style={{ paddingTop: '40px' }}>
@@ -52,57 +52,14 @@ export default async function WallPage({ searchParams }) {
           </Suspense>
         </div>
 
-        {/* Desktop Grid */}
-        <div className="desktop-only">
-          <div className="card-grid-desktop">
-            {submissions.map((sub, i) => (
-              <SubmissionCard
-                key={sub.id}
-                id={sub.id}
-                text={sub.text}
-                tag={sub.tag}
-                createdAt={sub.created_at}
-                index={i}
-                sensitive={containsExtremeContent(sub.text)}
-              />
-            ))}
-          </div>
-        </div>
-
-        {/* Mobile Grid */}
-        <div className="mobile-only">
-          <div className="card-grid-mobile">
-            {submissions.map((sub, i) => (
-              <SubmissionCard
-                key={sub.id}
-                id={sub.id}
-                text={sub.text}
-                tag={sub.tag}
-                createdAt={sub.created_at}
-                index={i}
-                sensitive={containsExtremeContent(sub.text)}
-              />
-            ))}
-          </div>
-        </div>
-
-        {submissions.length === 0 && (
-          <div className="text-center" style={{ padding: '64px 0' }}>
-            <p className="heading-md">Nothing here yet</p>
-            <p className="body-lg" style={{ marginTop: '8px' }}>
-              {filter !== 'all' ? 'No submissions found for this filter.' : 'Be the first to share.'}
-            </p>
-          </div>
-        )}
+        <InfiniteWall
+          initialSubmissions={submissions}
+          initialTotal={total}
+          filter={filter}
+          sensitiveIds={sensitiveIds}
+        />
 
         <NativeBanner />
-
-        <Pagination
-          currentPage={page}
-          totalPages={totalPages}
-          basePath="/wall"
-          searchParams={searchParamsObj}
-        />
       </div>
     </section>
   );
