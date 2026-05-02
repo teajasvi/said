@@ -24,7 +24,7 @@ export default function SubmissionCard({ id, text, tag, createdAt, index = 0, se
   // If id is provided, wrap in a link to the detail page
   if (id) {
     const card = (
-      <Link href={`/wall/${id}`} className={`card submission-card submission-card--clickable ${colorClass} animate-fade-in-up stagger-${(index % 6) + 1}`} aria-label={`Read full submission: ${text.slice(0, 60)}...`}>
+      <Link href={`/wall/${id}`} className={`card submission-card submission-card--clickable ${colorClass}`} aria-label={`Read full submission: ${text.slice(0, 60)}...`}>
         {cardContent}
       </Link>
     );
@@ -33,7 +33,7 @@ export default function SubmissionCard({ id, text, tag, createdAt, index = 0, se
   }
 
   const card = (
-    <article className={`card submission-card ${colorClass} animate-fade-in-up stagger-${(index % 6) + 1}`}>
+    <article className={`card submission-card ${colorClass}`}>
       {cardContent}
     </article>
   );
