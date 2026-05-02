@@ -81,7 +81,7 @@ export default function InfiniteWall({ initialSubmissions, initialTotal, filter,
 
   return (
     <>
-      {/* Desktop Grid */}
+      {/* First batch — 6 cards */}
       <div className="desktop-only">
         <div className="card-grid-desktop">
           {beforeAd.map((sub, i) => (
@@ -96,29 +96,7 @@ export default function InfiniteWall({ initialSubmissions, initialTotal, filter,
             />
           ))}
         </div>
-
-        {showAd && (
-          <NativeBanner />
-        )}
-
-        {afterAd.length > 0 && (
-          <div className="card-grid-desktop">
-            {afterAd.map((sub, i) => (
-              <SubmissionCard
-                key={sub.id}
-                id={sub.id}
-                text={sub.text}
-                tag={sub.tag}
-                createdAt={sub.created_at}
-                index={i + AD_AFTER_CARD}
-                sensitive={isSensitive(sub.id)}
-              />
-            ))}
-          </div>
-        )}
       </div>
-
-      {/* Mobile Grid */}
       <div className="mobile-only">
         <div className="card-grid-mobile">
           {beforeAd.map((sub, i) => (
@@ -133,27 +111,46 @@ export default function InfiniteWall({ initialSubmissions, initialTotal, filter,
             />
           ))}
         </div>
-
-        {showAd && (
-          <NativeBanner />
-        )}
-
-        {afterAd.length > 0 && (
-          <div className="card-grid-mobile">
-            {afterAd.map((sub, i) => (
-              <SubmissionCard
-                key={sub.id}
-                id={sub.id}
-                text={sub.text}
-                tag={sub.tag}
-                createdAt={sub.created_at}
-                index={i + AD_AFTER_CARD}
-                sensitive={isSensitive(sub.id)}
-              />
-            ))}
-          </div>
-        )}
       </div>
+
+      {/* Ad — single instance, visible on both desktop and mobile */}
+      {showAd && <NativeBanner />}
+
+      {/* Remaining cards */}
+      {afterAd.length > 0 && (
+        <>
+          <div className="desktop-only">
+            <div className="card-grid-desktop">
+              {afterAd.map((sub, i) => (
+                <SubmissionCard
+                  key={sub.id}
+                  id={sub.id}
+                  text={sub.text}
+                  tag={sub.tag}
+                  createdAt={sub.created_at}
+                  index={i + AD_AFTER_CARD}
+                  sensitive={isSensitive(sub.id)}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="mobile-only">
+            <div className="card-grid-mobile">
+              {afterAd.map((sub, i) => (
+                <SubmissionCard
+                  key={sub.id}
+                  id={sub.id}
+                  text={sub.text}
+                  tag={sub.tag}
+                  createdAt={sub.created_at}
+                  index={i + AD_AFTER_CARD}
+                  sensitive={isSensitive(sub.id)}
+                />
+              ))}
+            </div>
+          </div>
+        </>
+      )}
 
       {submissions.length === 0 && (
         <div className="text-center" style={{ padding: '64px 0' }}>
