@@ -2,6 +2,7 @@ import Link from 'next/link';
 import SubmissionCard from '@/components/cards/SubmissionCard';
 import { fetchApprovedSubmissions } from '@/lib/data';
 import { containsExtremeContent } from '@/lib/contentWarning';
+import NativeBanner from '@/components/ads/NativeBanner';
 
 export const revalidate = 300;
 
@@ -52,6 +53,11 @@ export default async function HomePage() {
           )}
         </div>
       </section>
+
+      {/* Native Banner Ad */}
+      <div className="container">
+        <NativeBanner />
+      </div>
 
       {/* Hero text + buttons — below the cards */}
       <section className="section--hero">

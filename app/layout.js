@@ -1,4 +1,5 @@
 import './globals.css';
+import Script from 'next/script';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import AgeGate from '@/components/ui/AgeGate';
@@ -132,6 +133,10 @@ export default function RootLayout({ children }) {
           {children}
         </main>
         <Footer />
+        <Script
+          src="https://pl29322190.profitablecpmratenetwork.com/92/de/1c/92de1ceeb387546e7f3c26bd5ecff785.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
