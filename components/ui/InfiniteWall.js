@@ -71,6 +71,7 @@ export default function InfiniteWall({ initialSubmissions, initialTotal, sensiti
             id={sub.id}
             text={sub.text}
             createdAt={sub.created_at}
+            saidBy={sub.said_by}
             index={i}
             sensitive={isSensitive(sub.id)}
           />

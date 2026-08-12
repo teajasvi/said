@@ -4,6 +4,7 @@ import { MAX_WORDS } from '@/lib/validation';
 
 export default function SubmitForm() {
   const [text, setText] = useState('');
+  const [saidBy, setSaidBy] = useState('');
   const [status, setStatus] = useState('idle');
   const [message, setMessage] = useState('');
 
@@ -27,7 +28,10 @@ export default function SubmitForm() {
       const res = await fetch('/api/submissions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: text.trim() }),
+        body: JSON.stringify({
+          text: text.trim(),
+          ...(saidBy.trim() && { said_by: saidBy.trim() }),
+        }),
       });
 
       const data = await res.json();
@@ -41,6 +45,7 @@ export default function SubmitForm() {
       setStatus('success');
       setMessage('Your words have been submitted. They will appear after review.');
       setText('');
+      setSaidBy('');
     } catch {
       setStatus('error');
       setMessage('Network error. Please check your connection and try again.');
@@ -87,6 +92,26 @@ export default function SubmitForm() {
             <span className="form-error">{wordsRemaining * -1} over</span>
           )}
         </div>
+      </div>
+
+      {/* Optional: who said it */}
+      <div className="form-group" style={{ marginBottom: '32px' }}>
+        <label htmlFor="said-by" className="form-label">Said by <span style={{ fontWeight: '400', color: 'var(--text-tertiary)' }}>(optional)</span></label>
+        <input
+          id="said-by"
+          type="text"
+          className="input"
+          value={saidBy}
+          onChange={(e) => {
+            const val = e.target.value.replace(/\s/g, '').slice(0, 20);
+            setSaidBy(val);
+          }}
+          placeholder="parent, friend, stranger..."
+          maxLength={20}
+          disabled={status === 'submitting'}
+          autoComplete="off"
+        />
+        <span className="form-hint" style={{ marginTop: '4px' }}>One word. Who said this to you?</span>
       </div>
 
       {/* Anonymity assurance */}

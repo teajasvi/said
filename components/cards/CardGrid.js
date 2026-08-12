@@ -18,6 +18,7 @@ export default function CardGrid({ submissions, startIndex = 0 }) {
           key={sub.id}
           text={sub.text}
           createdAt={sub.created_at}
+          saidBy={sub.said_by}
           index={startIndex + i}
         />
       ))}

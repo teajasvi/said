@@ -17,7 +17,7 @@ export async function GET(request) {
     const supabase = getSupabaseClient();
     const { data, error, count } = await supabase
       .from('submissions')
-      .select('id, text, created_at', { count: 'exact' })
+      .select('id, text, created_at, said_by', { count: 'exact' })
       .eq('status', 'approved')
       .order('approved_at', { ascending: false })
       .range(offset, offset + limit - 1);
@@ -57,7 +57,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Invalid request body.' }, { status: 400 });
     }
 
-    const { text } = body;
+    const { text, said_by } = body;
 
     // Sanitize
     const sanitized = sanitizeText(text || '');
@@ -66,6 +66,22 @@ export async function POST(request) {
     const errors = validateSubmission(sanitized);
     if (errors.length > 0) {
       return NextResponse.json({ error: errors[0] }, { status: 400 });
+    }
+
+    // Validate optional said_by (single word, max 20 chars, letters/hyphens only)
+    let cleanSaidBy = null;
+    if (said_by && typeof said_by === 'string' && said_by.trim()) {
+      const trimmed = said_by.trim().toLowerCase();
+      if (trimmed.length > 20) {
+        return NextResponse.json({ error: 'Said by must be 20 characters or fewer.' }, { status: 400 });
+      }
+      if (!/^[a-zA-Z\-]+$/.test(trimmed)) {
+        return NextResponse.json({ error: 'Said by must be a single word (letters only).' }, { status: 400 });
+      }
+      if (trimmed.includes(' ')) {
+        return NextResponse.json({ error: 'Said by must be a single word.' }, { status: 400 });
+      }
+      cleanSaidBy = trimmed;
     }
 
     // ── Server-side content moderation ──
@@ -113,6 +129,7 @@ export async function POST(request) {
       user_uuid: userUuid,
       word_count: countWords(sanitized),
       country,
+      ...(cleanSaidBy && { said_by: cleanSaidBy }),
     };
 
     // If moderation flagged elevated-risk content, store the flags

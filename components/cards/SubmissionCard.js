@@ -6,7 +6,7 @@ import ContentWarning from '@/components/ui/ContentWarning';
  * Submission Card — a submission floating in the void.
  * No backgrounds, no borders. Just text emerging from darkness.
  */
-export default function SubmissionCard({ id, text, createdAt, index = 0, sensitive = false }) {
+export default function SubmissionCard({ id, text, createdAt, saidBy, index = 0, sensitive = false }) {
   const cardContent = (
     <>
       <div className="submission-card__text">
@@ -16,6 +16,9 @@ export default function SubmissionCard({ id, text, createdAt, index = 0, sensiti
         <span className="submission-card__date">
           <LocalDate date={createdAt} />
         </span>
+        {saidBy && (
+          <span className="submission-card__said-by">— a {saidBy}</span>
+        )}
       </div>
     </>
   );

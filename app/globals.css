@@ -203,6 +203,11 @@ ul, ol { list-style: none; }
   font-family: var(--font-sans); font-size: 0.6875rem;
   color: var(--text-tertiary); letter-spacing: 0.03em;
 }
+.submission-card__said-by,
+.detail-card__said-by {
+  font-family: var(--font-serif); font-size: 0.75rem;
+  color: var(--text-tertiary); font-style: italic;
+}
 
 /* ===== Submission List (Single Column) ===== */
 .confession-list {

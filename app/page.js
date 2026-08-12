@@ -28,6 +28,7 @@ export default async function HomePage() {
                     id={sub.id}
                     text={sub.text}
                     createdAt={sub.created_at}
+                    saidBy={sub.said_by}
                     index={i}
                     sensitive={containsExtremeContent(sub.text)}
                   />
