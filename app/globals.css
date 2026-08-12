@@ -360,7 +360,7 @@ ul, ol { list-style: none; }
 
 @media (max-width: 768px) {
   .section--hero { padding: 56px 0 48px; }
-  .submission-card { padding: 28px 0 28px 20px; margin-bottom: 20px; }
+  .submission-card { padding: 64px 0 28px 20px; margin-bottom: 20px; }
   .submission-card__text { font-size: 1rem; line-height: 1.75; }
 }
 
@@ -553,7 +553,7 @@ ul, ol { list-style: none; }
 }
 
 @media (max-width: 768px) {
-  .detail-card { padding: 36px 24px; min-height: 260px; }
+  .detail-card { padding: 64px 24px 36px; min-height: 260px; }
   .detail-card__text { font-size: 1.125rem; }
 }
 
