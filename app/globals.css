@@ -244,12 +244,12 @@ ul, ol { list-style: none; }
 .header__logo span { font-style: italic; font-weight: 400; }
 .header__nav { display: flex; align-items: center; gap: 4px; }
 .header__link {
-  font-size: 0.8125rem; font-weight: 400; color: var(--text-tertiary);
+  font-size: 0.8125rem; font-weight: 400; color: var(--text-secondary);
   padding: 8px 16px; border-radius: var(--radius-sm); transition: all var(--transition);
-  position: relative; opacity: 0.6;
+  position: relative;
 }
 .header__link:hover, .header__link--active {
-  color: var(--text-secondary); background: var(--bg-elevated); opacity: 0.9;
+  color: var(--text-primary); background: var(--bg-elevated);
 }
 
 /* Dropdown */
@@ -323,17 +323,17 @@ ul, ol { list-style: none; }
 .footer__brand { display: flex; flex-direction: column; gap: 8px; }
 .footer__logo {
   font-family: var(--font-serif); font-size: 1rem; font-weight: 500;
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
 }
 .footer__desc {
   font-size: 0.75rem; color: var(--text-tertiary); max-width: 280px; line-height: 1.5;
 }
 .footer__nav { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
 .footer__link {
-  font-size: 0.75rem; color: var(--text-ghost); transition: color var(--transition);
+  font-size: 0.75rem; color: var(--text-tertiary); transition: color var(--transition);
   letter-spacing: 0.02em;
 }
-.footer__link:hover { color: var(--text-tertiary); }
+.footer__link:hover { color: var(--text-secondary); }
 .footer__bottom {
   display: flex; justify-content: space-between; align-items: center;
   max-width: var(--max-width); margin: 32px auto 0; padding: 20px 24px 0;
@@ -603,20 +603,20 @@ input, textarea { -webkit-user-select: text; user-select: text; }
   display: flex; flex-direction: column; align-items: center;
   gap: 8px; text-align: center; padding: 20px; max-width: 220px;
 }
-.cw-overlay__icon { font-size: 1.25rem; opacity: 0.3; line-height: 1; }
+.cw-overlay__icon { font-size: 1.25rem; opacity: 0.4; line-height: 1; }
 .cw-overlay__label {
   font-family: var(--font-sans); font-size: 0.625rem; font-weight: 500;
-  text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-soft);
+  text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent-text);
 }
 .cw-overlay__desc {
   font-family: var(--font-sans); font-size: 0.6875rem;
-  color: var(--text-ghost); line-height: 1.5;
+  color: var(--text-tertiary); line-height: 1.5;
 }
 .cw-overlay__btn {
   margin-top: 8px; padding: 6px 20px; font-size: 0.625rem; font-weight: 500;
   letter-spacing: 0.06em; text-transform: uppercase;
   color: var(--text-secondary); background: transparent;
-  border: 1px solid var(--text-ghost); border-radius: 100px;
+  border: 1px solid var(--border-visible); border-radius: 100px;
   cursor: pointer; transition: all var(--transition); font-family: var(--font-sans);
 }
 .cw-overlay__btn:hover {

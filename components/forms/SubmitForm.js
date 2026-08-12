@@ -98,7 +98,6 @@ export default function SubmitForm() {
           borderRadius: '8px',
           border: '1px solid var(--border)',
         }}>
-          <span style={{ fontSize: '1rem', flexShrink: 0, opacity: 0.4 }}>🔒</span>
           <div>
             <p style={{ fontSize: '0.6875rem', fontWeight: '500', color: 'var(--text-secondary)', margin: 0, lineHeight: '1.4', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Anonymous</p>
             <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', margin: '3px 0 0', lineHeight: '1.5' }}>No names, no accounts, no tracking.</p>
