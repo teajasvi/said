@@ -155,7 +155,7 @@ ul, ol { list-style: none; }
 /* ===== Submission Cards (The Wall) ===== */
 .submission-card {
   position: relative; display: block;
-  padding: 40px 20px;
+  padding: 72px 20px 32px;
   background: transparent;
   transition: all var(--transition-slow);
   color: var(--text-primary); width: 100%;
@@ -513,7 +513,7 @@ ul, ol { list-style: none; }
 
 .detail-card {
   position: relative;
-  padding: 48px 32px; color: var(--text-primary);
+  padding: 80px 32px 48px; color: var(--text-primary);
   min-height: 320px; display: flex; flex-direction: column;
   justify-content: center; background: transparent;
 }
