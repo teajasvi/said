@@ -1,25 +1,22 @@
 import Link from 'next/link';
-import LocalDate from '@/components/ui/LocalDate';
+
 import ContentWarning from '@/components/ui/ContentWarning';
 
 /**
  * Submission Card — a submission floating in the void.
  * No backgrounds, no borders. Just text emerging from darkness.
  */
-export default function SubmissionCard({ id, text, createdAt, saidBy, index = 0, sensitive = false }) {
+export default function SubmissionCard({ id, text, saidBy, index = 0, sensitive = false }) {
   const cardContent = (
     <>
       <div className="submission-card__text">
         <p>{text}</p>
       </div>
-      <div className="submission-card__meta">
-        {saidBy && (
+      {saidBy && (
+        <div className="submission-card__meta">
           <span className="submission-card__said-by">said by a {saidBy}</span>
-        )}
-        <span className="submission-card__date">
-          <LocalDate date={createdAt} />
-        </span>
-      </div>
+        </div>
+      )}
     </>
   );
 
