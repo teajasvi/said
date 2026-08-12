@@ -6,7 +6,6 @@ export default function Footer() {
   const links = [
     { href: '/wall', label: 'The Wall' },
     { href: '/share', label: 'Share' },
-    { href: '/stories', label: 'Stories' },
     { href: '/about', label: 'About' },
     { href: '/how-it-works', label: 'How It Works' },
     { href: '/privacy', label: 'Privacy' },

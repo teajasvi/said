@@ -13,22 +13,18 @@ export async function generateMetadata({ params }) {
     return { title: 'Submission Not Found' };
   }
 
-  const tagLabel = submission.tag === 'i_said_it' ? 'I said it' : 'It was said to me';
-  const tagContext = submission.tag === 'i_said_it'
-    ? 'An anonymous confession of guilt and regret'
-    : 'An anonymous account of words that cut deep';
   const truncatedText = submission.text.length > 120
     ? submission.text.slice(0, 120) + '…'
     : submission.text;
 
   return {
-    title: `"${truncatedText}" — ${tagLabel}`,
-    description: `${tagContext}: "${submission.text}" — shared anonymously on The Worst Said, a curated archive of the worst things ever said.`,
-    keywords: ['anonymous confession', 'worst things said', tagLabel.toLowerCase(), 'relationship confession', 'hurtful words'],
+    title: `"${truncatedText}" — The Worst Said`,
+    description: `An anonymous account of words that cut deep: "${submission.text}" — shared anonymously on The Worst Said.`,
+    keywords: ['worst things said', 'hurtful words', 'anonymous archive'],
     alternates: { canonical: `https://theworstsaid.com/wall/${id}` },
     openGraph: {
       title: `"${truncatedText}"`,
-      description: `${tagLabel} — ${tagContext}. Shared anonymously on The Worst Said.`,
+      description: `An anonymous submission — The Worst Said.`,
       type: 'article',
       publishedTime: submission.created_at,
       siteName: 'The Worst Said',
@@ -36,7 +32,7 @@ export async function generateMetadata({ params }) {
     twitter: {
       card: 'summary_large_image',
       title: `"${truncatedText}"`,
-      description: `${tagLabel} — shared anonymously on The Worst Said.`,
+      description: `An anonymous submission — The Worst Said.`,
     },
   };
 }
@@ -49,8 +45,6 @@ export default async function SubmissionDetailPage({ params }) {
 
   if (!submission) notFound();
 
-  const tagLabel = submission.tag === 'i_said_it' ? 'I said it' : 'It was said to me';
-  const colorClass = submission.tag === 'i_said_it' ? 'color-a' : 'color-b';
   const sensitive = containsExtremeContent(submission.text);
 
   const jsonLd = {
@@ -63,15 +57,11 @@ export default async function SubmissionDetailPage({ params }) {
   };
 
   const detailCard = (
-    <article className={`detail-card ${colorClass} animate-fade-in-up`}>
+    <article className="detail-card animate-fade-in-slow">
       <div className="detail-card__text">
         <p>{submission.text}</p>
       </div>
-      <div className="detail-card__divider" />
       <div className="detail-card__meta">
-        <div>
-          <span className="detail-card__tag">{tagLabel}</span>
-        </div>
         <div className="detail-card__date">
           <LocalDate date={submission.created_at} />
         </div>
@@ -87,8 +77,7 @@ export default async function SubmissionDetailPage({ params }) {
       />
 
       <section className="section" style={{ paddingTop: '24px' }}>
-        <div className="container" style={{ maxWidth: '720px' }}>
-          {/* Back link */}
+        <div className="container" style={{ maxWidth: '640px' }}>
           <Link href="/wall" className="detail-back animate-fade-in">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -96,11 +85,9 @@ export default async function SubmissionDetailPage({ params }) {
             Back to The Wall
           </Link>
 
-          {/* The card — large, centered */}
           {sensitive ? <ContentWarning>{detailCard}</ContentWarning> : detailCard}
 
-          {/* Actions */}
-          <div className="detail-actions animate-fade-in-up stagger-2">
+          <div className="detail-actions animate-fade-in-up stagger-3">
             <Link href="/share" className="btn btn-primary">
               Share Your Words
             </Link>

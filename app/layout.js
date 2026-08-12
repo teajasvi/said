@@ -1,5 +1,5 @@
 import './globals.css';
-import Script from 'next/script';
+
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import AgeGate from '@/components/ui/AgeGate';
@@ -10,9 +10,9 @@ export const metadata = {
     default: 'The Worst Said — A Curated Archive of Unspoken Truths',
     template: '%s | The Worst Said',
   },
-  description: 'Explore a curated archive of anonymous confessions — the worst things ever said and the words that stayed. A premium sanctuary for catharsis, healing, and the permanent residue of the human condition.',
+  description: 'Explore a curated archive of the worst things ever said to us — the words that cut, the ones that stayed, and the ones we still carry. A sanctuary for catharsis, healing, and release.',
   keywords: [
-    'anonymous confessions',
+    'anonymous submissions',
     'worst things said in relationships',
     'hurtful words in a relationship',
     'relationship regrets',
@@ -20,11 +20,11 @@ export const metadata = {
     'breakup trauma',
     'unsaid words',
     'anonymous venting',
-    'confessional platform',
+    'anonymous sharing platform',
     'healing from hurtful words',
     'things people say during breakups',
-    'toxic relationship confessions',
-    'emotional abuse confessions',
+    'toxic relationship stories',
+    'emotional abuse experiences',
     'words that hurt',
     'relationship closure',
     'micro-hurts in relationships',
@@ -50,13 +50,13 @@ export const metadata = {
     url: 'https://theworstsaid.com',
     siteName: 'The Worst Said',
     title: 'The Worst Said — A Curated Archive of Unspoken Truths',
-    description: 'A premium anonymous sanctuary for the worst things ever said. Explore confessions of guilt, regret, and the words that altered lives forever.',
+    description: 'An anonymous sanctuary for the worst things ever said to us. The words that cut, the regret that stayed, and the truths we still carry.',
     images: [{ url: '/opengraph-image.png', width: 512, height: 512, alt: 'The Worst Said' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'The Worst Said — A Curated Archive of Unspoken Truths',
-    description: 'A premium anonymous sanctuary for the worst things ever said. Explore confessions of guilt, regret, and the words that stayed.',
+    description: 'An anonymous sanctuary for the worst things ever said to us. The words that cut, the ones that stayed.',
     creator: '@theworstsaid',
     images: ['/opengraph-image.png'],
   },
@@ -72,7 +72,7 @@ export const viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: '#F7F5F2',
+  themeColor: '#131211',
 };
 
 export default function RootLayout({ children }) {
@@ -81,7 +81,7 @@ export default function RootLayout({ children }) {
     '@type': 'WebSite',
     name: 'The Worst Said',
     url: 'https://theworstsaid.com',
-    description: 'A curated archive of anonymous confessions — the worst things ever said, the words that stayed, and the truths we carry. A premium sanctuary for catharsis and healing.',
+    description: 'A curated archive of the worst things ever said to us — the words that stayed, and the truths we carry. A sanctuary for catharsis and healing.',
     potentialAction: {
       '@type': 'SearchAction',
       target: 'https://theworstsaid.com/wall?q={search_term_string}',
@@ -91,7 +91,7 @@ export default function RootLayout({ children }) {
       '@type': 'Organization',
       name: 'The Worst Said',
       url: 'https://theworstsaid.com',
-      description: 'An anonymous confessional platform curating the worst things ever said — a digital sanctuary for catharsis, reflection, and collective healing.',
+      description: 'An anonymous platform archiving the worst things ever said to us — a digital sanctuary for catharsis, reflection, and collective healing.',
     },
   };
 
@@ -100,7 +100,7 @@ export default function RootLayout({ children }) {
     '@type': 'Organization',
     name: 'The Worst Said',
     url: 'https://theworstsaid.com',
-    description: 'A premium anonymous confessional platform exploring the permanent residue of words — the cruelties inflicted and the guilt carried.',
+    description: 'An anonymous platform exploring the permanent residue of words — the cruelties said to us and the weight they carry.',
     sameAs: [],
   };
 
@@ -133,10 +133,7 @@ export default function RootLayout({ children }) {
           {children}
         </main>
         <Footer />
-        <Script
-          src="https://pl29322190.profitablecpmratenetwork.com/92/de/1c/92de1ceeb387546e7f3c26bd5ecff785.js"
-          strategy="afterInteractive"
-        />
+
       </body>
     </html>
   );

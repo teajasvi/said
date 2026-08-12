@@ -143,11 +143,9 @@ export default function AdminDashboard() {
     }
   };
 
-  const formatDate = (d) => new Date(d).toLocaleString('en-US', {
-    month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit',
+  const formatDate = (d) => new Date(d).toLocaleDateString('en-US', {
+    month: 'short', day: 'numeric', year: 'numeric',
   });
-
-  const tagLabel = (t) => t === 'i_said_it' ? 'I said it' : 'Said to me';
 
   const countryFlag = (code) => {
     if (!code || code.length !== 2) return '';
@@ -206,7 +204,7 @@ export default function AdminDashboard() {
     checkbox: { width: '16px', height: '16px', accentColor: '#E8E6E3', cursor: 'pointer' },
     textCell: { maxWidth: '360px', wordBreak: 'break-word', cursor: 'pointer', lineHeight: '1.5' },
     expandedText: { maxWidth: '360px', wordBreak: 'break-word', lineHeight: '1.6' },
-    badge: (tag) => ({ display: 'inline-block', padding: '2px 8px', borderRadius: '4px', fontSize: '0.6875rem', fontWeight: '500', background: tag === 'i_said_it' ? '#1B4332' : '#1E293B', color: tag === 'i_said_it' ? '#6EE7B7' : '#93C5FD' }),
+
     mono: { fontFamily: 'monospace', fontSize: '0.6875rem', color: '#6B6966' },
     actionBtn: (color) => ({ padding: '6px 12px', fontSize: '0.6875rem', fontWeight: '500', border: 'none', borderRadius: '4px', cursor: 'pointer', fontFamily: 'var(--font-sans)', background: color === 'green' ? '#1B4332' : color === 'red' ? '#3B1219' : color === 'orange' ? '#422006' : '#2A2927', color: color === 'green' ? '#6EE7B7' : color === 'red' ? '#FCA5A5' : color === 'orange' ? '#FCD34D' : '#E8E6E3' }),
     card: (sel) => ({ background: sel ? '#1E1D1C' : '#151413', border: '1px solid #2A2927', borderRadius: '10px', padding: '14px', marginBottom: '8px' }),
@@ -221,7 +219,6 @@ export default function AdminDashboard() {
     <div key={sub.id} style={s.card(selected.has(sub.id))}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
         <input type="checkbox" checked={selected.has(sub.id)} onChange={() => toggleSelect(sub.id)} style={s.checkbox} />
-        <span style={s.badge(sub.tag)}>{tagLabel(sub.tag)}</span>
         <span style={{ ...s.mono, marginLeft: 'auto' }}>{formatDate(sub.created_at)}</span>
       </div>
       <div
@@ -319,7 +316,6 @@ export default function AdminDashboard() {
                     <tr>
                       <th style={s.th}><input type="checkbox" checked={allSelected} onChange={toggleSelectAll} style={s.checkbox} /></th>
                       <th style={s.th}>Submission</th>
-                      <th style={s.th}>Tag</th>
                       <th style={s.th}>Flags</th>
                       <th style={s.th}>Date</th>
                       <th style={s.th}>IP / UUID</th>
@@ -336,7 +332,7 @@ export default function AdminDashboard() {
                             onClick={() => setExpandedId(expandedId === sub.id ? null : sub.id)}
                           >{sub.text}</div>
                         </td>
-                        <td style={s.td}><span style={s.badge(sub.tag)}>{tagLabel(sub.tag)}</span></td>
+
                         <td style={s.td}>{renderFlags(sub.moderation_flags) || <span style={s.mono}>—</span>}</td>
                         <td style={{ ...s.td, whiteSpace: 'nowrap' }}><span style={s.mono}>{formatDate(sub.created_at)}</span></td>
                         <td style={s.td}>

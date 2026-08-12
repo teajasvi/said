@@ -1,0 +1,38 @@
+Warning: Custom Cache-Control headers detected for the following routes:
+  - /_next/static/(.*)
+
+Setting a custom Cache-Control header can break Next.js development behavior.
+[Data] Error: column submissions.moderation_labels does not exist
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+Error: Both middleware file "./middleware.js" and proxy file "./proxy.js" are detected. Please use "./proxy.js" only. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+    at ignore-listed frames
+⨯ unhandledRejection: Error: Both middleware file "./middleware.js" and proxy file "./proxy.js" are detected. Please use "./proxy.js" only. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+    at ignore-listed frames
+⨯ unhandledRejection:  Error: Both middleware file "./middleware.js" and proxy file "./proxy.js" are detected. Please use "./proxy.js" only. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+    at ignore-listed frames
+Error: Both middleware file "./middleware.js" and proxy file "./proxy.js" are detected. Please use "./proxy.js" only. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+    at ignore-listed frames
+⨯ unhandledRejection: Error: Both middleware file "./middleware.js" and proxy file "./proxy.js" are detected. Please use "./proxy.js" only. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+    at ignore-listed frames
+⨯ unhandledRejection:  Error: Both middleware file "./middleware.js" and proxy file "./proxy.js" are detected. Please use "./proxy.js" only. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+    at ignore-listed frames
+
+<--- Last few GCs --->
+
+[14160:0000027525FA5000] 13806658 ms: Scavenge 3570.6 (3830.9) -> 3563.5 (3830.9) MB, pooled: 0 MB, 716.47 / 0.00 ms  (average mu = 0.317, current mu = 0.317) allocation failure; 
+[14160:0000027525FA5000] 13843028 ms: Mark-Compact 3576.8 (3832.6) -> 3518.0 (3815.7) MB, pooled: 0 MB, 36033.26 / 727.57 ms  (average mu = 0.257, current mu = 0.226) allocation failure; scavenge might not succeed
+
+
+<--- JS stacktrace --->
+
+FATAL ERROR: Ineffective mark-compacts near heap limit Allocation failed - JavaScript heap out of memory
+----- Native stack trace -----
+
+ 1: 00007FF65FB820AD node::SetCppgcReference+17245
+ 2: 00007FF65FAEA4D8 v8::base::CPU::num_virtual_address_bits+92376
+ 3: 00007FF66066A1B1 v8::Isolate::ReportExternalAllocationLimitReached+65
+ 4: 00007FF660657096 v8::Function::Experimental_IsNopFunction+2790
+ 5: 00007FF6604A6920 v8::internal::StrongRootAllocatorBase::StrongRootAllocatorBase+31392
+ 6: 00007FF6604A0644 v8::internal::StrongRootAllocatorBase::StrongRootAllocatorBase+6084
+ 7: 00007FF66049BCF5 v8::CpuProfileNode::GetScriptResourceNameStr+188069
+ 8: 00007FF65FE213BD BIO_ssl_shutdown+189

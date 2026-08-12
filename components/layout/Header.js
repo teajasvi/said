@@ -26,7 +26,6 @@ export default function Header() {
 
   const moreLinks = [
     { href: '/how-it-works', label: 'How It Works' },
-    { href: '/stories', label: 'Stories' },
     { href: '/about', label: 'About' },
     { href: '/terms', label: 'Terms' },
     { href: '/privacy', label: 'Privacy' },

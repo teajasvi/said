@@ -2,18 +2,17 @@ import Link from 'next/link';
 import LocalDate from '@/components/ui/LocalDate';
 import ContentWarning from '@/components/ui/ContentWarning';
 
-/** Submission Card — displays a single submission, clickable to detail page */
-export default function SubmissionCard({ id, text, tag, createdAt, index = 0, sensitive = false }) {
-  const colorClass = index % 2 === 0 ? 'color-a' : 'color-b';
-  const tagLabel = tag === 'i_said_it' ? 'I said it' : 'It was said to me';
-
+/**
+ * Submission Card — a submission floating in the void.
+ * No backgrounds, no borders. Just text emerging from darkness.
+ */
+export default function SubmissionCard({ id, text, createdAt, index = 0, sensitive = false }) {
   const cardContent = (
     <>
       <div className="submission-card__text">
         <p>{text}</p>
       </div>
       <div className="submission-card__meta">
-        <span className="submission-card__tag">{tagLabel}</span>
         <span className="submission-card__date">
           <LocalDate date={createdAt} />
         </span>
@@ -21,19 +20,21 @@ export default function SubmissionCard({ id, text, tag, createdAt, index = 0, se
     </>
   );
 
-  // If id is provided, wrap in a link to the detail page
   if (id) {
     const card = (
-      <Link href={`/wall/${id}`} className={`card submission-card submission-card--clickable ${colorClass}`} aria-label={`Read full submission: ${text.slice(0, 60)}...`}>
+      <Link
+        href={`/wall/${id}`}
+        className="submission-card submission-card--clickable"
+        aria-label={`Read full submission: ${text.slice(0, 60)}...`}
+      >
         {cardContent}
       </Link>
     );
-
     return sensitive ? <ContentWarning>{card}</ContentWarning> : card;
   }
 
   const card = (
-    <article className={`card submission-card ${colorClass}`}>
+    <article className="submission-card">
       {cardContent}
     </article>
   );

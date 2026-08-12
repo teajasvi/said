@@ -12,20 +12,16 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10));
     const limit = Math.min(30, Math.max(1, parseInt(searchParams.get('limit') || '20', 10)));
-    const tag = searchParams.get('tag') || 'all';
     const offset = (page - 1) * limit;
 
     const supabase = getSupabaseClient();
-    let query = supabase
+    const { data, error, count } = await supabase
       .from('submissions')
-      .select('id, text, tag, created_at', { count: 'exact' })
+      .select('id, text, created_at', { count: 'exact' })
       .eq('status', 'approved')
       .order('approved_at', { ascending: false })
       .range(offset, offset + limit - 1);
 
-    if (tag !== 'all') query = query.eq('tag', tag);
-
-    const { data, error, count } = await query;
     if (error) throw error;
 
     return NextResponse.json({
@@ -61,13 +57,13 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Invalid request body.' }, { status: 400 });
     }
 
-    const { text, tag } = body;
+    const { text } = body;
 
     // Sanitize
     const sanitized = sanitizeText(text || '');
 
     // Validate
-    const errors = validateSubmission(sanitized, tag);
+    const errors = validateSubmission(sanitized);
     if (errors.length > 0) {
       return NextResponse.json({ error: errors[0] }, { status: 400 });
     }
@@ -108,10 +104,10 @@ export async function POST(request) {
       }, { status: 429 });
     }
 
-    // Build submission row
+    // Build submission row — tag is always 'said_to_me'
     const submissionData = {
       text: sanitized,
-      tag,
+      tag: 'said_to_me',
       status: 'pending',
       ip_address: ip,
       user_uuid: userUuid,

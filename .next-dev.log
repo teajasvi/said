@@ -1,0 +1,28 @@
+
+> worstsaid@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.4 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.37:3000
+- Environments: .env.local
+✓ Ready in 969ms
+
+ GET /wall 200 in 2.0s (next.js: 219ms, proxy.ts: 259ms, application-code: 1523ms)
+✓ Compiled in 461ms
+✓ Compiled in 1052ms
+✓ Compiled in 24ms
+✓ Compiled in 155ms
+✓ Compiled in 557ms
+✓ Compiled in 18ms
+✓ Compiled in 269ms
+✓ Compiled in 61ms
+✓ Compiled in 515ms
+ GET / 200 in 4.7s (next.js: 1135ms, proxy.ts: 595ms, application-code: 3.0s)
+ GET /wall 200 in 2.3s (next.js: 414ms, proxy.ts: 39ms, application-code: 1816ms)
+ GET /wall?page=2 200 in 1168ms (next.js: 5ms, proxy.ts: 6ms, application-code: 1157ms)
+ GET / 200 in 471ms (next.js: 6ms, proxy.ts: 5ms, application-code: 460ms)
+✓ Compiled in 74ms
+○ Compiling proxy ...
+✓ Compiled in 81.2s
+[?25h

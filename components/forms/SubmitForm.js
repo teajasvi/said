@@ -4,8 +4,7 @@ import { MAX_WORDS } from '@/lib/validation';
 
 export default function SubmitForm() {
   const [text, setText] = useState('');
-  const [tag, setTag] = useState('');
-  const [status, setStatus] = useState('idle'); // idle | submitting | success | error
+  const [status, setStatus] = useState('idle');
   const [message, setMessage] = useState('');
 
   const wordCount = text.trim() ? text.trim().split(/\s+/).filter(w => w.length > 0).length : 0;
@@ -19,7 +18,7 @@ export default function SubmitForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!text.trim() || !tag || isOverLimit) return;
+    if (!text.trim() || isOverLimit) return;
 
     setStatus('submitting');
     setMessage('');
@@ -28,7 +27,7 @@ export default function SubmitForm() {
       const res = await fetch('/api/submissions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: text.trim(), tag }),
+        body: JSON.stringify({ text: text.trim() }),
       });
 
       const data = await res.json();
@@ -42,7 +41,6 @@ export default function SubmitForm() {
       setStatus('success');
       setMessage('Your words have been submitted. They will appear after review.');
       setText('');
-      setTag('');
     } catch {
       setStatus('error');
       setMessage('Network error. Please check your connection and try again.');
@@ -51,10 +49,10 @@ export default function SubmitForm() {
 
   if (status === 'success') {
     return (
-      <div className="text-center animate-fade-in" style={{ padding: '48px 0' }}>
-        <div style={{ fontSize: '3rem', marginBottom: '16px' }}>✓</div>
+      <div className="text-center animate-fade-in-slow" style={{ padding: '64px 0' }}>
+        <div style={{ fontSize: '1.5rem', marginBottom: '24px', color: 'var(--text-tertiary)' }}>✓</div>
         <h2 className="heading-md" style={{ marginBottom: '12px' }}>Submitted</h2>
-        <p className="body-lg" style={{ marginBottom: '32px' }}>{message}</p>
+        <p className="body-sm" style={{ marginBottom: '40px', lineHeight: '1.7' }}>{message}</p>
         <button
           onClick={() => { setStatus('idle'); setMessage(''); }}
           className="btn btn-secondary"
@@ -67,53 +65,44 @@ export default function SubmitForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate>
-      <div className="form-group" style={{ marginBottom: '24px' }}>
+      <div className="form-group" style={{ marginBottom: '32px' }}>
         <label htmlFor="submission-text" className="form-label">Your Words</label>
         <textarea
           id="submission-text"
           className="textarea"
           value={text}
           onChange={handleTextChange}
-          placeholder="Write what was said..."
+          placeholder="Write what was said to you..."
           maxLength={600}
-          rows={6}
+          rows={7}
           required
           aria-describedby="word-count"
           disabled={status === 'submitting'}
         />
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4px' }}>
           <span className="form-hint" id="word-count">
-            {wordCount}/{MAX_WORDS} words
+            {wordCount}/{MAX_WORDS}
           </span>
           {isOverLimit && (
-            <span className="form-error">Too many words ({wordsRemaining * -1} over)</span>
+            <span className="form-error">{wordsRemaining * -1} over</span>
           )}
         </div>
       </div>
 
-      <div className="form-group" style={{ marginBottom: '32px' }}>
-        <span className="form-label">Who said it?</span>
-        <div className="tag-selector">
-          <button
-            type="button"
-            className={`tag-option ${tag === 'i_said_it' ? 'tag-option--selected' : ''}`}
-            onClick={() => setTag('i_said_it')}
-            disabled={status === 'submitting'}
-            aria-pressed={tag === 'i_said_it'}
-          >
-            <div className="tag-option__label">I said it</div>
-            <div className="tag-option__desc">Words I spoke</div>
-          </button>
-          <button
-            type="button"
-            className={`tag-option ${tag === 'said_to_me' ? 'tag-option--selected' : ''}`}
-            onClick={() => setTag('said_to_me')}
-            disabled={status === 'submitting'}
-            aria-pressed={tag === 'said_to_me'}
-          >
-            <div className="tag-option__label">It was said to me</div>
-            <div className="tag-option__desc">Words I received</div>
-          </button>
+      {/* Anonymity assurance */}
+      <div style={{ marginBottom: '40px' }}>
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '14px',
+          padding: '16px 20px',
+          background: 'var(--bg-surface)',
+          borderRadius: '8px',
+          border: '1px solid var(--border)',
+        }}>
+          <span style={{ fontSize: '1rem', flexShrink: 0, opacity: 0.4 }}>🔒</span>
+          <div>
+            <p style={{ fontSize: '0.6875rem', fontWeight: '500', color: 'var(--text-secondary)', margin: 0, lineHeight: '1.4', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Anonymous</p>
+            <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', margin: '3px 0 0', lineHeight: '1.5' }}>No names, no accounts, no tracking.</p>
+          </div>
         </div>
       </div>
 
@@ -124,14 +113,14 @@ export default function SubmitForm() {
       <button
         type="submit"
         className="btn btn-primary"
-        disabled={!text.trim() || !tag || isOverLimit || status === 'submitting'}
+        disabled={!text.trim() || isOverLimit || status === 'submitting'}
         style={{ width: '100%', padding: '16px' }}
       >
         {status === 'submitting' ? 'Submitting...' : 'Submit'}
       </button>
 
-      <p className="caption text-center" style={{ marginTop: '16px' }}>
-        All submissions are reviewed before appearing publicly.
+      <p className="caption text-center" style={{ marginTop: '20px', letterSpacing: '0.06em' }}>
+        All submissions are reviewed before appearing.
       </p>
     </form>
   );
