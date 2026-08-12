@@ -13,12 +13,12 @@ export default function SubmissionCard({ id, text, createdAt, saidBy, index = 0,
         <p>{text}</p>
       </div>
       <div className="submission-card__meta">
+        {saidBy && (
+          <span className="submission-card__said-by">said by a {saidBy}</span>
+        )}
         <span className="submission-card__date">
           <LocalDate date={createdAt} />
         </span>
-        {saidBy && (
-          <span className="submission-card__said-by">— a {saidBy}</span>
-        )}
       </div>
     </>
   );
