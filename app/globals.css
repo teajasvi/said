@@ -162,21 +162,16 @@ ul, ol { list-style: none; }
   margin-bottom: 32px;
 }
 
-/* Hand-drawn messy scratch line at top */
+/* Tangled ball scribble line at top */
 .submission-card::before {
   content: '';
   position: absolute;
   top: 0; left: 50%;
   transform: translateX(-50%);
-  width: 120px; height: 24px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='24' fill='none'%3E%3Cpath d='M10,12 L30,4 L22,18 L45,2 L35,22 L55,4 L42,20 L68,2 L55,18 L75,6 L65,16 L85,8 L72,14 L95,10' stroke='%238B2020' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' opacity='0.6'/%3E%3Cpath d='M15,14 L35,2 L25,20 L50,4 L40,22 L65,2 L50,18 L75,8 L60,16 L88,6 L75,12 L100,10' stroke='%238B2020' stroke-width='1' stroke-linecap='round' stroke-linejoin='round' opacity='0.4'/%3E%3C/svg%3E");
+  width: 120px; height: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='40' fill='none'%3E%3Cpath d='M5.0,20.0 T25.0,18.0 T72.1,21.9 T61.1,26.3 T53.9,7.7 T73.9,28.5 T68.6,21.6 T54.5,19.8 T60.8,22.3 T48.1,16.5 T55.3,17.1 T74.9,20.6 T55.2,5.9 T64.2,26.2 T51.0,34.8 T62.9,22.0 T47.6,10.6 T58.1,5.2 T70.4,18.2 T52.4,17.4 T48.8,9.7 T46.0,12.6 T72.7,23.8 T58.6,25.5 T60.4,23.3 T59.4,23.6 T52.0,29.1 T62.0,27.7 T65.8,17.6 T50.4,12.2 T59.4,15.3 T56.6,23.2 T48.6,6.3 T55.6,10.0 T62.5,4.7 T65.5,21.1 T59.2,27.0 T65.0,18.1 T53.7,34.7 T50.1,27.6 T43.9,24.3 T60.1,26.2 T95.0,22.0 T115.0,20.0' stroke='%23FFFFFF' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round' opacity='0.25'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: center;
-}
-
-/* Alternating scratch color */
-.submission-card:nth-child(even)::before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='24' fill='none'%3E%3Cpath d='M10,12 L30,4 L22,18 L45,2 L35,22 L55,4 L42,20 L68,2 L55,18 L75,6 L65,16 L85,8 L72,14 L95,10' stroke='%233D5A80' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' opacity='0.6'/%3E%3Cpath d='M15,14 L35,2 L25,20 L50,4 L40,22 L65,2 L50,18 L75,8 L60,16 L88,6 L75,12 L100,10' stroke='%233D5A80' stroke-width='1' stroke-linecap='round' stroke-linejoin='round' opacity='0.4'/%3E%3C/svg%3E");
 }
 
 .submission-card--clickable { cursor: pointer; text-decoration: none; }
@@ -527,8 +522,8 @@ ul, ol { list-style: none; }
   position: absolute;
   top: 0; left: 50%;
   transform: translateX(-50%);
-  width: 120px; height: 24px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='24' fill='none'%3E%3Cpath d='M10,12 L30,4 L22,18 L45,2 L35,22 L55,4 L42,20 L68,2 L55,18 L75,6 L65,16 L85,8 L72,14 L95,10' stroke='%238B2020' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' opacity='0.6'/%3E%3Cpath d='M15,14 L35,2 L25,20 L50,4 L40,22 L65,2 L50,18 L75,8 L60,16 L88,6 L75,12 L100,10' stroke='%238B2020' stroke-width='1' stroke-linecap='round' stroke-linejoin='round' opacity='0.4'/%3E%3C/svg%3E");
+  width: 120px; height: 40px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='40' fill='none'%3E%3Cpath d='M5.0,20.0 T25.0,18.0 T72.1,21.9 T61.1,26.3 T53.9,7.7 T73.9,28.5 T68.6,21.6 T54.5,19.8 T60.8,22.3 T48.1,16.5 T55.3,17.1 T74.9,20.6 T55.2,5.9 T64.2,26.2 T51.0,34.8 T62.9,22.0 T47.6,10.6 T58.1,5.2 T70.4,18.2 T52.4,17.4 T48.8,9.7 T46.0,12.6 T72.7,23.8 T58.6,25.5 T60.4,23.3 T59.4,23.6 T52.0,29.1 T62.0,27.7 T65.8,17.6 T50.4,12.2 T59.4,15.3 T56.6,23.2 T48.6,6.3 T55.6,10.0 T62.5,4.7 T65.5,21.1 T59.2,27.0 T65.0,18.1 T53.7,34.7 T50.1,27.6 T43.9,24.3 T60.1,26.2 T95.0,22.0 T115.0,20.0' stroke='%23FFFFFF' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round' opacity='0.25'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: center;
 }
