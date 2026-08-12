@@ -155,34 +155,32 @@ ul, ol { list-style: none; }
 /* ===== Submission Cards (The Wall) ===== */
 .submission-card {
   position: relative; display: block;
-  padding: 36px 0 36px 24px;
-  margin-left: 0;
-  border-left: 2px solid var(--card-accent-a);
+  padding: 32px 20px 28px;
   background: var(--card-tint-a);
   transition: all var(--transition-slow);
   color: var(--text-primary); width: 100%;
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  border-radius: var(--radius-sm);
   margin-bottom: 24px;
 }
 
-/* Small accent dash centered at top for separation */
+/* Hand-drawn scribble line at top */
 .submission-card::before {
   content: '';
   position: absolute;
-  top: 0; left: 50%;
+  top: -1px; left: 50%;
   transform: translateX(-50%);
-  width: 32px; height: 2px;
-  background: var(--card-accent-a);
-  border-radius: 1px;
+  width: 80px; height: 6px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='6' fill='none'%3E%3Cpath d='M2 4c5-3 8 2 13-1s7-3 12 0 8 1 13-1 7-2 12 1 8 0 13-2 7-1 13 1' stroke='%238B2020' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
-/* Alternating accent colors */
+/* Alternating tint + scribble color */
 .submission-card:nth-child(even) {
-  border-left-color: var(--card-accent-b);
   background: var(--card-tint-b);
 }
 .submission-card:nth-child(even)::before {
-  background: var(--card-accent-b);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='6' fill='none'%3E%3Cpath d='M2 4c5-3 8 2 13-1s7-3 12 0 8 1 13-1 7-2 12 1 8 0 13-2 7-1 13 1' stroke='%233D5A80' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
 .submission-card--clickable { cursor: pointer; text-decoration: none; }
@@ -523,11 +521,21 @@ ul, ol { list-style: none; }
 .detail-back:hover { color: var(--text-secondary); }
 
 .detail-card {
+  position: relative;
   padding: 48px 32px; color: var(--text-primary);
   min-height: 320px; display: flex; flex-direction: column;
   justify-content: center; background: var(--bg-surface);
-  border-left: 3px solid var(--accent);
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  border-radius: var(--radius-md);
+}
+.detail-card::before {
+  content: '';
+  position: absolute;
+  top: -1px; left: 50%;
+  transform: translateX(-50%);
+  width: 80px; height: 6px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='6' fill='none'%3E%3Cpath d='M2 4c5-3 8 2 13-1s7-3 12 0 8 1 13-1 7-2 12 1 8 0 13-2 7-1 13 1' stroke='%238B2020' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
 }
 .detail-card.color-a,
 .detail-card.color-b { background: var(--bg-surface); }
