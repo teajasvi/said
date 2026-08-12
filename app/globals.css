@@ -8,11 +8,11 @@
   --bg-elevated: #21201E;
   --bg-hover: #282725;
 
-  /* ── Text — warm, readable ── */
-  --text-primary: #E0DCD8;
-  --text-secondary: #A8A29E;
-  --text-tertiary: #78726E;
-  --text-ghost: #4A4644;
+  /* ── Text — WCAG-tuned against #131211 ── */
+  --text-primary: #DAD7D2;   /* 13:1 — body text */
+  --text-secondary: #9E9994; /* 6.6:1 — nav, labels */
+  --text-tertiary: #6F6A66;  /* 3.5:1 — dates, meta */
+  --text-ghost: #3C3A38;     /* 1.7:1 — decorative */
 
   /* ── The Wound ── */
   --accent: #8B2020;
