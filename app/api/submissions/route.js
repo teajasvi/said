@@ -3,6 +3,7 @@ import { getSupabaseClient } from '@/lib/supabase/client';
 import { getSupabaseAdmin } from '@/lib/supabase/server';
 import { sanitizeText, validateSubmission, countWords } from '@/lib/validation';
 import { moderateContent } from '@/lib/moderation';
+import { classifySubmission } from '@/lib/groq';
 import { checkRateLimit } from '@/lib/rateLimit';
 import { headers } from 'next/headers';
 
@@ -17,7 +18,7 @@ export async function GET(request) {
     const supabase = getSupabaseClient();
     const { data, error, count } = await supabase
       .from('submissions')
-      .select('id, text, created_at, said_by', { count: 'exact' })
+      .select('id, text, created_at, said_by, is_sensitive', { count: 'exact' })
       .eq('status', 'approved')
       .order('approved_at', { ascending: false })
       .range(offset, offset + limit - 1);
@@ -84,12 +85,9 @@ export async function POST(request) {
       cleanSaidBy = trimmed;
     }
 
-    // ── Server-side content moderation ──
-    // This runs BEFORE anything touches the database.
-    // Critical content (CSAM, terrorism) is hard-blocked and never stored.
+    // ── Layer 1: Regex pre-filter (instant, blocks CSAM/terrorism) ──
     const modResult = moderateContent(sanitized);
     if (modResult.blocked) {
-      // Return a generic error — never reveal what was detected
       return NextResponse.json({ error: modResult.reason }, { status: 400 });
     }
 
@@ -120,7 +118,30 @@ export async function POST(request) {
       }, { status: 429 });
     }
 
-    // Build submission row — tag is always 'said_to_me'
+    // ── Layer 2: AI moderation via Groq ──
+    const aiResult = await classifySubmission(sanitized);
+
+    // AI says REJECT → store as rejected for audit, return generic error
+    if (aiResult.verdict === 'REJECT') {
+      // Store for admin audit
+      await supabaseAdmin.from('submissions').insert({
+        text: sanitized,
+        tag: 'said_to_me',
+        status: 'rejected',
+        ip_address: ip,
+        user_uuid: userUuid,
+        word_count: countWords(sanitized),
+        country,
+        ai_verdict: 'reject',
+        ai_reason: aiResult.reason,
+        ...(cleanSaidBy && { said_by: cleanSaidBy }),
+        ...(modResult.flags.length > 0 && { moderation_flags: modResult.flags }),
+      });
+
+      return NextResponse.json({ error: 'This submission cannot be accepted.' }, { status: 400 });
+    }
+
+    // Build submission row
     const submissionData = {
       text: sanitized,
       tag: 'said_to_me',
@@ -132,8 +153,18 @@ export async function POST(request) {
       ...(cleanSaidBy && { said_by: cleanSaidBy }),
     };
 
-    // If moderation flagged elevated-risk content, store the flags
-    // so admin sees a warning badge when reviewing
+    // AI verdict metadata
+    if (aiResult.aiUsed) {
+      submissionData.ai_verdict = aiResult.verdict.toLowerCase();
+      submissionData.ai_reason = aiResult.reason;
+    }
+
+    // Mark sensitive if AI says so
+    if (aiResult.verdict === 'SENSITIVE') {
+      submissionData.is_sensitive = true;
+    }
+
+    // Regex-level flags for admin visibility
     if (modResult.flags.length > 0) {
       submissionData.moderation_flags = modResult.flags;
     }

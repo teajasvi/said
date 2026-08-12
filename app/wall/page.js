@@ -1,5 +1,4 @@
 import { fetchApprovedSubmissions } from '@/lib/data';
-import { containsExtremeContent } from '@/lib/contentWarning';
 import InfiniteWall from '@/components/ui/InfiniteWall';
 
 export const metadata = {
@@ -24,10 +23,6 @@ export default async function WallPage() {
     page: 1,
   });
 
-  const sensitiveIds = submissions
-    .filter(sub => containsExtremeContent(sub.text))
-    .map(sub => sub.id);
-
   return (
     <section className="section" style={{ paddingTop: '48px' }}>
       <div className="container">
@@ -44,7 +39,6 @@ export default async function WallPage() {
           <InfiniteWall
             initialSubmissions={submissions}
             initialTotal={total}
-            sensitiveIds={sensitiveIds}
           />
         </div>
       </div>

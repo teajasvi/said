@@ -8,7 +8,7 @@ const BATCH_SIZE = 12;
  * InfiniteWall — single-column stream of submissions
  * that auto-loads as the user scrolls into the void.
  */
-export default function InfiniteWall({ initialSubmissions, initialTotal, sensitiveIds }) {
+export default function InfiniteWall({ initialSubmissions, initialTotal }) {
   const [submissions, setSubmissions] = useState(initialSubmissions);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -61,8 +61,6 @@ export default function InfiniteWall({ initialSubmissions, initialTotal, sensiti
     return () => observer.disconnect();
   }, [loadMore]);
 
-  const isSensitive = (id) => sensitiveIds.includes(id);
-
   return (
     <div className="confession-list">
       {submissions.map((sub, i) => (
@@ -73,7 +71,7 @@ export default function InfiniteWall({ initialSubmissions, initialTotal, sensiti
             createdAt={sub.created_at}
             saidBy={sub.said_by}
             index={i}
-            sensitive={isSensitive(sub.id)}
+            sensitive={sub.is_sensitive}
           />
         </div>
       ))}

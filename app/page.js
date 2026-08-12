@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import SubmissionCard from '@/components/cards/SubmissionCard';
 import { fetchApprovedSubmissions } from '@/lib/data';
-import { containsExtremeContent } from '@/lib/contentWarning';
 
 export const revalidate = 300;
 
@@ -30,7 +29,7 @@ export default async function HomePage() {
                     createdAt={sub.created_at}
                     saidBy={sub.said_by}
                     index={i}
-                    sensitive={containsExtremeContent(sub.text)}
+                    sensitive={sub.is_sensitive}
                   />
                 </div>
               ))}

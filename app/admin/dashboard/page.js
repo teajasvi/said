@@ -161,6 +161,43 @@ export default function AdminDashboard() {
     'sa-algospeak': '#FF6D00',
   };
 
+  const aiVerdictColors = {
+    approve: { bg: '#1B433222', color: '#6EE7B7', border: '#1B433244' },
+    sensitive: { bg: '#78350F22', color: '#FCD34D', border: '#78350F44' },
+    review: { bg: '#1E3A5F22', color: '#93C5FD', border: '#1E3A5F44' },
+    reject: { bg: '#3B121922', color: '#FCA5A5', border: '#3B121944' },
+  };
+
+  const renderAIBadge = (sub) => {
+    const parts = [];
+    // Sensitive badge
+    if (sub.is_sensitive) {
+      parts.push(
+        <span key="sensitive" style={{ display: 'inline-block', padding: '1px 6px', borderRadius: '3px', fontSize: '0.5625rem', fontWeight: '600', letterSpacing: '0.04em', textTransform: 'uppercase', background: '#78350F22', color: '#FCD34D', border: '1px solid #78350F44' }}>
+          ⚠ SENSITIVE
+        </span>
+      );
+    }
+    // AI verdict badge
+    if (sub.ai_verdict) {
+      const colors = aiVerdictColors[sub.ai_verdict] || aiVerdictColors.review;
+      parts.push(
+        <span key="verdict" style={{ display: 'inline-block', padding: '1px 6px', borderRadius: '3px', fontSize: '0.5625rem', fontWeight: '600', letterSpacing: '0.04em', textTransform: 'uppercase', background: colors.bg, color: colors.color, border: '1px solid ' + colors.border }}>
+          AI: {sub.ai_verdict}
+        </span>
+      );
+    }
+    // AI reason
+    if (sub.ai_reason) {
+      parts.push(
+        <div key="reason" style={{ fontSize: '0.625rem', color: '#6B6966', marginTop: '2px', fontStyle: 'italic' }}>
+          {sub.ai_reason}
+        </div>
+      );
+    }
+    return parts.length > 0 ? <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap', alignItems: 'center' }}>{parts}</div> : null;
+  };
+
   const renderFlags = (flags) => {
     if (!flags || !Array.isArray(flags) || flags.length === 0) return null;
     return (
@@ -230,6 +267,7 @@ export default function AdminDashboard() {
       >
         {sub.text}
       </div>
+      {renderAIBadge(sub)}
       {renderFlags(sub.moderation_flags)}
       <div style={{ display: 'flex', gap: '6px', alignItems: 'center', marginBottom: '10px', fontSize: '0.6875rem', color: '#6B6966', fontFamily: 'monospace', flexWrap: 'wrap' }}>
         {sub.country && sub.country !== 'XX' && <span>{countryFlag(sub.country)}</span>}
@@ -316,6 +354,7 @@ export default function AdminDashboard() {
                     <tr>
                       <th style={s.th}><input type="checkbox" checked={allSelected} onChange={toggleSelectAll} style={s.checkbox} /></th>
                       <th style={s.th}>Submission</th>
+                      <th style={s.th}>AI</th>
                       <th style={s.th}>Flags</th>
                       <th style={s.th}>Date</th>
                       <th style={s.th}>IP / UUID</th>
@@ -333,6 +372,7 @@ export default function AdminDashboard() {
                           >{sub.text}</div>
                         </td>
 
+                        <td style={s.td}>{renderAIBadge(sub) || <span style={s.mono}>—</span>}</td>
                         <td style={s.td}>{renderFlags(sub.moderation_flags) || <span style={s.mono}>—</span>}</td>
                         <td style={{ ...s.td, whiteSpace: 'nowrap' }}><span style={s.mono}>{formatDate(sub.created_at)}</span></td>
                         <td style={s.td}>

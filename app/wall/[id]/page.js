@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { fetchSubmissionById } from '@/lib/data';
-import { containsExtremeContent } from '@/lib/contentWarning';
 import LocalDate from '@/components/ui/LocalDate';
 import ContentWarning from '@/components/ui/ContentWarning';
 
@@ -45,7 +44,7 @@ export default async function SubmissionDetailPage({ params }) {
 
   if (!submission) notFound();
 
-  const sensitive = containsExtremeContent(submission.text);
+  const sensitive = submission.is_sensitive;
 
   const jsonLd = {
     '@context': 'https://schema.org',
