@@ -63,7 +63,7 @@ export default async function SubmissionDetailPage({ params }) {
       </div>
       <div className="detail-card__meta">
         {submission.said_by && (
-          <div className="detail-card__said-by">said by a {submission.said_by}</div>
+          <div className="detail-card__said-by">— {submission.said_by}</div>
         )}
         <div className="detail-card__date">
           <LocalDate date={submission.created_at} />
