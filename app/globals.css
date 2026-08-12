@@ -184,10 +184,7 @@ ul, ol { list-style: none; }
   background-position: center;
 }
 
-/* Hide line on the very first card in the list since there's nothing above it */
-.confession-list > div:first-child .submission-card::before {
-  display: none;
-}
+
 
 .submission-card--clickable { cursor: pointer; text-decoration: none; }
 
