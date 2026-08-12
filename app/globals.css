@@ -155,32 +155,28 @@ ul, ol { list-style: none; }
 /* ===== Submission Cards (The Wall) ===== */
 .submission-card {
   position: relative; display: block;
-  padding: 32px 20px 28px;
-  background: var(--card-tint-a);
+  padding: 40px 20px;
+  background: transparent;
   transition: all var(--transition-slow);
   color: var(--text-primary); width: 100%;
-  border-radius: var(--radius-sm);
-  margin-bottom: 24px;
+  margin-bottom: 32px;
 }
 
-/* Hand-drawn scribble line at top */
+/* Hand-drawn messy scratch line at top */
 .submission-card::before {
   content: '';
   position: absolute;
-  top: -1px; left: 50%;
+  top: 0; left: 50%;
   transform: translateX(-50%);
-  width: 80px; height: 6px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='6' fill='none'%3E%3Cpath d='M2 4c5-3 8 2 13-1s7-3 12 0 8 1 13-1 7-2 12 1 8 0 13-2 7-1 13 1' stroke='%238B2020' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  width: 120px; height: 24px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='24' fill='none'%3E%3Cpath d='M10,12 L30,4 L22,18 L45,2 L35,22 L55,4 L42,20 L68,2 L55,18 L75,6 L65,16 L85,8 L72,14 L95,10' stroke='%238B2020' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' opacity='0.6'/%3E%3Cpath d='M15,14 L35,2 L25,20 L50,4 L40,22 L65,2 L50,18 L75,8 L60,16 L88,6 L75,12 L100,10' stroke='%238B2020' stroke-width='1' stroke-linecap='round' stroke-linejoin='round' opacity='0.4'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: center;
 }
 
-/* Alternating tint + scribble color */
-.submission-card:nth-child(even) {
-  background: var(--card-tint-b);
-}
+/* Alternating scratch color */
 .submission-card:nth-child(even)::before {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='6' fill='none'%3E%3Cpath d='M2 4c5-3 8 2 13-1s7-3 12 0 8 1 13-1 7-2 12 1 8 0 13-2 7-1 13 1' stroke='%233D5A80' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='24' fill='none'%3E%3Cpath d='M10,12 L30,4 L22,18 L45,2 L35,22 L55,4 L42,20 L68,2 L55,18 L75,6 L65,16 L85,8 L72,14 L95,10' stroke='%233D5A80' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' opacity='0.6'/%3E%3Cpath d='M15,14 L35,2 L25,20 L50,4 L40,22 L65,2 L50,18 L75,8 L60,16 L88,6 L75,12 L100,10' stroke='%233D5A80' stroke-width='1' stroke-linecap='round' stroke-linejoin='round' opacity='0.4'/%3E%3C/svg%3E");
 }
 
 .submission-card--clickable { cursor: pointer; text-decoration: none; }
@@ -524,21 +520,18 @@ ul, ol { list-style: none; }
   position: relative;
   padding: 48px 32px; color: var(--text-primary);
   min-height: 320px; display: flex; flex-direction: column;
-  justify-content: center; background: var(--bg-surface);
-  border-radius: var(--radius-md);
+  justify-content: center; background: transparent;
 }
 .detail-card::before {
   content: '';
   position: absolute;
-  top: -1px; left: 50%;
+  top: 0; left: 50%;
   transform: translateX(-50%);
-  width: 80px; height: 6px;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='6' fill='none'%3E%3Cpath d='M2 4c5-3 8 2 13-1s7-3 12 0 8 1 13-1 7-2 12 1 8 0 13-2 7-1 13 1' stroke='%238B2020' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  width: 120px; height: 24px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='24' fill='none'%3E%3Cpath d='M10,12 L30,4 L22,18 L45,2 L35,22 L55,4 L42,20 L68,2 L55,18 L75,6 L65,16 L85,8 L72,14 L95,10' stroke='%238B2020' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round' opacity='0.6'/%3E%3Cpath d='M15,14 L35,2 L25,20 L50,4 L40,22 L65,2 L50,18 L75,8 L60,16 L88,6 L75,12 L100,10' stroke='%238B2020' stroke-width='1' stroke-linecap='round' stroke-linejoin='round' opacity='0.4'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: center;
 }
-.detail-card.color-a,
-.detail-card.color-b { background: var(--bg-surface); }
 
 .detail-card__text {
   font-family: var(--font-serif); font-size: clamp(1.25rem, 3vw, 1.75rem);
