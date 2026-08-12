@@ -231,8 +231,7 @@ ul, ol { list-style: none; }
 /* ===== Header ===== */
 .header {
   position: fixed; top: 0; left: 0; right: 0; height: var(--header-height);
-  background: rgba(19, 18, 17, 0.9);
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  background: var(--bg-void);
   border-bottom: 1px solid var(--border);
   z-index: 1000; display: flex; align-items: center;
 }
