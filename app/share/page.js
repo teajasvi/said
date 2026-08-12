@@ -35,13 +35,13 @@ export default function SharePage() {
             For unsent letters and memories:
           </p>
           <a
-            href="https://www.ifonlyisentthis.com/"
+            href="https://www.honeyifonly.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-ghost"
             style={{ fontSize: '0.6875rem', padding: '8px 16px', border: '1px solid var(--text-ghost)', borderRadius: '100px' }}
           >
-            ifonlyisentthis.com ↗
+            honeyifonly.com ↗
           </a>
         </div>
       </div>
