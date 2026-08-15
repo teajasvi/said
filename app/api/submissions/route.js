@@ -138,7 +138,11 @@ export async function POST(request) {
         ...(modResult.flags.length > 0 && { moderation_flags: modResult.flags }),
       });
 
-      return NextResponse.json({ error: 'This submission cannot be accepted.' }, { status: 400 });
+      return NextResponse.json({
+        success: true,
+        message: 'Submitted for review.',
+        remaining: rateResult.remaining,
+      }, { status: 201 });
     }
 
     // Build submission row
