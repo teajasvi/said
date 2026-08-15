@@ -96,7 +96,7 @@ export default function SubmitForm() {
 
       {/* Optional: who said it */}
       <div className="form-group" style={{ marginBottom: '32px' }}>
-        <label htmlFor="said-by" className="form-label">Said by <span style={{ fontWeight: '400', color: 'var(--text-tertiary)' }}>(optional)</span></label>
+        <label htmlFor="said-by" className="form-label">Who said this to you? <span style={{ fontWeight: '400', color: 'var(--text-tertiary)' }}>(optional)</span></label>
         <input
           id="said-by"
           type="text"
@@ -111,7 +111,7 @@ export default function SubmitForm() {
           disabled={status === 'submitting'}
           autoComplete="off"
         />
-        <span className="form-hint" style={{ marginTop: '4px' }}>One word. Who said this to you?</span>
+        <span className="form-hint" style={{ marginTop: '4px' }}>One word. Shows as "my ___ said this to me"</span>
       </div>
 
       {/* Anonymity assurance */}

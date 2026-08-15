@@ -14,7 +14,7 @@ export default function SubmissionCard({ id, text, saidBy, index = 0, sensitive 
       </div>
       {saidBy && (
         <div className="submission-card__meta">
-          <span className="submission-card__said-by">— {saidBy}</span>
+          <span className="submission-card__said-by">my {saidBy} said this to me</span>
         </div>
       )}
     </>

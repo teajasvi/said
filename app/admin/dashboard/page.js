@@ -282,6 +282,9 @@ export default function AdminDashboard() {
             <button onClick={() => handleAction(sub.id, 'reject')} disabled={actionLoading === sub.id} style={s.actionBtn('red')}>✕ Reject</button>
           </>
         )}
+        {statusFilter === 'rejected' && (
+          <button onClick={() => handleAction(sub.id, 'approve')} disabled={actionLoading === sub.id} style={s.actionBtn('green')}>✓ Approve</button>
+        )}
         <button onClick={() => handleBan(sub)} style={s.actionBtn('orange')}>Ban</button>
         <button onClick={() => handleDelete(sub.id)} disabled={actionLoading === sub.id} style={s.actionBtn('red')}>Delete</button>
       </div>
@@ -325,6 +328,9 @@ export default function AdminDashboard() {
                 <button onClick={() => handleBulkAction('approve')} style={s.bulkBtn('green')} disabled={actionLoading === 'bulk'}>✓ Approve</button>
                 <button onClick={() => handleBulkAction('reject')} style={s.bulkBtn('red')} disabled={actionLoading === 'bulk'}>✕ Reject</button>
               </>
+            )}
+            {statusFilter === 'rejected' && (
+              <button onClick={() => handleBulkAction('approve')} style={s.bulkBtn('green')} disabled={actionLoading === 'bulk'}>✓ Approve</button>
             )}
             <button onClick={() => handleBulkAction('delete')} style={s.bulkBtn('red')} disabled={actionLoading === 'bulk'}>🗑 Delete</button>
             <button onClick={() => setSelected(new Set())} style={s.bulkBtn('neutral')}>Clear</button>
@@ -389,6 +395,9 @@ export default function AdminDashboard() {
                                 <button onClick={() => handleAction(sub.id, 'approve')} disabled={actionLoading === sub.id} style={s.actionBtn('green')}>Approve</button>
                                 <button onClick={() => handleAction(sub.id, 'reject')} disabled={actionLoading === sub.id} style={s.actionBtn('red')}>Reject</button>
                               </>
+                            )}
+                            {statusFilter === 'rejected' && (
+                              <button onClick={() => handleAction(sub.id, 'approve')} disabled={actionLoading === sub.id} style={s.actionBtn('green')}>Approve</button>
                             )}
                             <button onClick={() => handleBan(sub)} style={s.actionBtn('orange')}>Ban</button>
                             <button onClick={() => handleDelete(sub.id)} disabled={actionLoading === sub.id} style={s.actionBtn('red')}>Delete</button>
